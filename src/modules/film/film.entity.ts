@@ -63,7 +63,7 @@ export class FilmEntity extends defaultClasses.TimeStamps {
   })
   public userId!: Ref<UserEntity>;
 
-  @prop({ type: Number, default: 1 })
+  @prop({ type: Number, default: 0 })
   public commentCount!: number;
 }
 
