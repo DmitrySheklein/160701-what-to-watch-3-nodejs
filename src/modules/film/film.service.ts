@@ -31,11 +31,29 @@ export default class FilmService implements FilmServiceInterface {
   public async find(count?: number): Promise<DocumentType<FilmEntity>[]> {
     const limit = count ?? DEFAULT_FILM_COUNT;
 
-    return this.filmModel
-      .find({}, {}, { limit })
+    const customFilms = await this.filmModel
+      .aggregate([
+        {
+          $project: {
+            name: 1,
+            created: 1,
+            genre: 1,
+            previewVideoLink: 1,
+            commentCount: 1,
+            posterImage: 1,
+            userId: 1,
+          },
+        },
+        { $limit: limit },
+      ])
       .sort({ postDate: SortType.Down })
-      .populate(['userId'])
       .exec();
+
+    await this.filmModel.populate(customFilms, {
+      path: 'userId',
+    });
+
+    return customFilms;
   }
 
   public async deleteById(filmID: string): Promise<DocumentType<FilmEntity> | null> {
