@@ -8,6 +8,7 @@ import { Component } from '../../types/component.types.js';
 import { LoggerInterface } from '../../common/logger/logger.interface.js';
 import { SortType } from '../../types/sort-type.enum.js';
 import { DEFAULT_FILM_COUNT } from './film.constant.js';
+import { Genres } from '../../types/film.type.js';
 
 @injectable()
 export default class FilmService implements FilmServiceInterface {
@@ -30,34 +31,11 @@ export default class FilmService implements FilmServiceInterface {
   public async find(count?: number): Promise<DocumentType<FilmEntity>[]> {
     const limit = count ?? DEFAULT_FILM_COUNT;
 
-    return (
-      this.filmModel
-        // .find({}, {}, { limit })
-        .aggregate([
-          {
-            $lookup: {
-              from: 'comments',
-              let: { filmId: '$_id' },
-              pipeline: [
-                {
-                  $match: {
-                    filmId: '$$filmId',
-                  },
-                },
-                { $project: { _id: 1 } },
-              ],
-              as: 'comments',
-            },
-          },
-          { $addFields: { id: { $toString: '$_id' }, commentCount: { $size: '$comments' } } },
-          { $unset: 'comments' },
-          { $limit: limit },
-          { $sort: { commentCount: SortType.Down } },
-        ])
-        // .sort({ postDate: SortType.Down })
-        // .populate(['userId'])
-        .exec()
-    );
+    return this.filmModel
+      .find({}, {}, { limit })
+      .sort({ postDate: SortType.Down })
+      .populate(['userId'])
+      .exec();
   }
 
   public async deleteById(filmID: string): Promise<DocumentType<FilmEntity> | null> {
@@ -68,7 +46,10 @@ export default class FilmService implements FilmServiceInterface {
     return this.filmModel.findByIdAndUpdate(filmID, dto, { new: true }).populate(['userId']).exec();
   }
 
-  public async findByGenre(genre: string, count?: number | undefined): Promise<DocumentType<FilmEntity>[]> {
+  public async findByGenre(
+    genre: keyof typeof Genres,
+    count?: number | undefined,
+  ): Promise<DocumentType<FilmEntity>[]> {
     const limit = count ?? DEFAULT_FILM_COUNT;
 
     return this.filmModel
