@@ -12,10 +12,10 @@ export interface CommentEntity extends defaultClasses.Base {}
   },
 })
 export class CommentEntity extends defaultClasses.TimeStamps {
-  @prop({ trim: true, required: true })
+  @prop({ trim: true, required: true, minlength: 5, maxlength: 1024 })
   public message!: string;
 
-  @prop({ required: true })
+  @prop({ required: true, min: 1, max: 10 })
   public rating!: number;
 
   @prop({ required: true })
