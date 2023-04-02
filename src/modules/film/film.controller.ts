@@ -5,10 +5,14 @@ import { LoggerInterface } from '../../common/logger/logger.interface.js';
 import { HttpMethod } from '../../types/http-method.enum.js';
 import { Response, Request } from 'express';
 import StatusCodes from 'http-status-codes';
+import FilmService from './film.service.js';
 
 @injectable()
 export default class FilmController extends Controller {
-  constructor(@inject(Component.LoggerInterface) logger: LoggerInterface) {
+  constructor(
+    @inject(Component.LoggerInterface) logger: LoggerInterface,
+    @inject(Component.FilmServiceInterface) private readonly filmService: FilmService,
+  ) {
     super(logger);
     this.logger.info('Register router for FilmController');
 
@@ -16,8 +20,9 @@ export default class FilmController extends Controller {
     this.addRoute({ path: '/', method: HttpMethod.Post, handler: this.create });
   }
 
-  public index(_: Request, res: Response): void {
-    res.type('application/json').status(StatusCodes.OK).json({ data: 'hello' });
+  public async index(_: Request, res: Response): Promise<void> {
+    const films = await this.filmService.find();
+    res.type('application/json').status(StatusCodes.OK).json(films);
   }
 
   public create(_: Request, res: Response): void {

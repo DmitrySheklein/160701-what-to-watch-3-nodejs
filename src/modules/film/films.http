@@ -1,0 +1,7 @@
+# Фильмы
+## Получить список фильмов
+
+GET http://localhost:3007/films HTTP/1.1
+Content-Type: application/json
+
+###
