@@ -6,6 +6,8 @@ import { HttpMethod } from '../../types/http-method.enum.js';
 import { Response, Request } from 'express';
 import StatusCodes from 'http-status-codes';
 import FilmService from './film.service.js';
+import { fillDTO } from '../../utils/common.js';
+import FilmResponse from './response/film.response.js';
 
 @injectable()
 export default class FilmController extends Controller {
@@ -22,7 +24,8 @@ export default class FilmController extends Controller {
 
   public async index(_: Request, res: Response): Promise<void> {
     const films = await this.filmService.find();
-    res.type('application/json').status(StatusCodes.OK).json(films);
+    const filmsResponse = fillDTO(FilmResponse, films);
+    res.type('application/json').status(StatusCodes.OK).json(filmsResponse);
   }
 
   public create(_: Request, res: Response): void {
