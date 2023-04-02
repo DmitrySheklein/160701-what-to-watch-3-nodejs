@@ -11,6 +11,7 @@ import express, { Express } from 'express';
 import { CommentServiceInterface } from '../modules/comment/comment-service.interface.js';
 import { FilmServiceInterface } from '../modules/film/film-service.interface.js';
 import { UserServiceInterface } from '../modules/user/user-service.interface.js';
+import { ControllerInterface } from '../common/controller/controller.interface.js';
 
 @injectable()
 export default class Application {
@@ -23,8 +24,13 @@ export default class Application {
     @inject(Component.FilmServiceInterface) private filmService: FilmServiceInterface,
     @inject(Component.CommentServiceInterface) private commentService: CommentServiceInterface,
     @inject(Component.UserServiceInterface) private userService: UserServiceInterface,
+    @inject(Component.FilmController) private filmController: ControllerInterface,
   ) {
     this.expressApp = express();
+  }
+
+  public initRoutes() {
+    this.expressApp.use('/films', this.filmController.router);
   }
 
   public async init() {
@@ -41,7 +47,7 @@ export default class Application {
 
     await this.databaseClient.connect(uri);
     this.userService.findByEmail('sfsf@sgsgsg.ru');
-
+    this.initRoutes();
     this.expressApp.listen(this.config.get('PORT'));
     this.logger.info(`Server started on http://localhost:${this.config.get('PORT')}`);
     const comment = await this.commentService.create({

@@ -16,11 +16,11 @@ export default class FilmController extends Controller {
     this.addRoute({ path: '/', method: HttpMethod.Post, handler: this.create });
   }
 
-  public index(req: Request, res: Response): void {
+  public index(_: Request, res: Response): void {
     res.type('application/json').status(StatusCodes.OK).json({ data: 'hello' });
   }
 
-  public create(req: Request, res: Response): void {
-    // code
+  public create(_: Request, res: Response): void {
+    res.type('application/json').status(StatusCodes.CREATED).json({ data: 'create' });
   }
 }
