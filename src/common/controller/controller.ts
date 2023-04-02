@@ -3,7 +3,9 @@ import { ControllerInterface } from './controller.interface.js';
 import { LoggerInterface } from '../logger/logger.interface.js';
 import { RouteIntreface } from '../../types/route.interface.js';
 import StatusCodes from 'http-status-codes';
+import { injectable } from 'inversify';
 
+@injectable()
 export abstract class Controller implements ControllerInterface {
   private readonly _router: Router;
 
