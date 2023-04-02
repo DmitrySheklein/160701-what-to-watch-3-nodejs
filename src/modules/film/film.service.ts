@@ -31,8 +31,18 @@ export default class FilmService implements FilmServiceInterface {
   public async find(count?: number): Promise<DocumentType<FilmEntity>[]> {
     const limit = count ?? DEFAULT_FILM_COUNT;
 
-    const customFilms = await this.filmModel
+    return this.filmModel
       .aggregate([
+        { $limit: limit },
+        { $sort: { postDate: SortType.Down } },
+        {
+          $lookup: {
+            from: 'users',
+            localField: 'userId',
+            foreignField: '_id',
+            as: 'user',
+          },
+        },
         {
           $project: {
             name: 1,
@@ -41,19 +51,11 @@ export default class FilmService implements FilmServiceInterface {
             previewVideoLink: 1,
             commentCount: 1,
             posterImage: 1,
-            userId: 1,
+            user: 1,
           },
         },
-        { $limit: limit },
       ])
-      .sort({ postDate: SortType.Down })
       .exec();
-
-    await this.filmModel.populate(customFilms, {
-      path: 'userId',
-    });
-
-    return customFilms;
   }
 
   public async deleteById(filmID: string): Promise<DocumentType<FilmEntity> | null> {
