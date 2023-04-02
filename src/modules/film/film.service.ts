@@ -105,18 +105,6 @@ export default class FilmService implements FilmServiceInterface {
     return this.filmModel.find().populate(['userId']).exec();
   }
 
-  public async changeFavorite(filmId: string, status: number): Promise<DocumentType<FilmEntity> | null> {
-    return this.filmModel.findByIdAndUpdate(
-      filmId,
-      {
-        $set: {
-          isFavorite: status,
-        },
-      },
-      { new: true },
-    );
-  }
-
   public async exists(documentId: string): Promise<boolean> {
     return (await this.filmModel.exists({ _id: documentId })) !== null;
   }
