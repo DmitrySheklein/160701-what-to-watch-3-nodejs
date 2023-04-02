@@ -33,6 +33,10 @@ export default class Application {
     this.expressApp.use('/films', this.filmController.router);
   }
 
+  public initMiddleware() {
+    this.expressApp.use(express.json());
+  }
+
   public async init() {
     this.logger.info('App init');
     this.logger.info(`Get value from env $PORT ${this.config.get('PORT')}`);
@@ -47,6 +51,7 @@ export default class Application {
 
     await this.databaseClient.connect(uri);
     this.userService.findByEmail('sfsf@sgsgsg.ru');
+    this.initMiddleware();
     this.initRoutes();
     this.expressApp.listen(this.config.get('PORT'));
     this.logger.info(`Server started on http://localhost:${this.config.get('PORT')}`);
