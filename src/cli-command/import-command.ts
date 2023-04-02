@@ -1,3 +1,4 @@
+// npm run ts ./src/cli.ts -- --import ./mock/mock-data.tsv admin test 127.0.0.1 course-njs3 secret
 import { DatabaseInterface } from '../common/database-client/database.interface.js';
 import DatabaseService from '../common/database-client/database.service.js';
 import TSVFileReader from '../common/file-reader/tsv-file-reader.js';
@@ -16,6 +17,7 @@ import { getUri } from '../utils/db.js';
 
 const DEFAULT_DB_PORT = 27017;
 const DEFAULT_USER_PASSWORD = '123456';
+
 export default class ImportCommand implements CliCommandInterface {
   public readonly name = '--import';
   private userService!: UserServiceInterface;
@@ -38,7 +40,8 @@ export default class ImportCommand implements CliCommandInterface {
     const user = await this.userService.findOrCreate(
       {
         ...film.user,
-        password: film.user.password || DEFAULT_USER_PASSWORD,
+        //TODO импорт реального пароля пользователя
+        password: /* film.user.password  || */ DEFAULT_USER_PASSWORD,
       },
       this.salt,
     );

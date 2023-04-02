@@ -8,6 +8,9 @@ import { getUri } from '../utils/db.js';
 // import { CommentServiceInterface } from '../modules/comment/comment-service.interface.js';
 // import { FilmServiceInterface } from '../modules/film/film-service.interface.js';
 import express, { Express } from 'express';
+import { CommentServiceInterface } from '../modules/comment/comment-service.interface.js';
+import { FilmServiceInterface } from '../modules/film/film-service.interface.js';
+import { UserServiceInterface } from '../modules/user/user-service.interface.js';
 
 @injectable()
 export default class Application {
@@ -16,7 +19,10 @@ export default class Application {
   constructor(
     @inject(Component.LoggerInterface) private logger: LoggerInterface,
     @inject(Component.ConfigInterface) private config: ConfigService,
-    @inject(Component.DatabaseInterface) private databaseClient: DatabaseInterface, // @inject(Component.FilmServiceInterface) private filmService: FilmServiceInterface, // @inject(Component.CommentServiceInterface) private commentService: CommentServiceInterface,
+    @inject(Component.DatabaseInterface) private databaseClient: DatabaseInterface,
+    @inject(Component.FilmServiceInterface) private filmService: FilmServiceInterface,
+    @inject(Component.CommentServiceInterface) private commentService: CommentServiceInterface,
+    @inject(Component.UserServiceInterface) private userService: UserServiceInterface,
   ) {
     this.expressApp = express();
   }
@@ -34,20 +40,21 @@ export default class Application {
     );
 
     await this.databaseClient.connect(uri);
-
-    // const comment = await this.commentService.create({
-    //   message: `My comment ${new Date().toISOString()}`,
-    //   rating: Math.floor(Math.random() * 10),
-    //   postDate: new Date(),
-    //   userId: '63e8a82d66e29469756b99c7',
-    //   filmId: '63e8a82e66e29469756b99ca',
-    // });
-    // console.log(comment);
-
-    // const films = await this.filmService.find();
-    // console.log(films);
+    this.userService.findByEmail('sfsf@sgsgsg.ru');
 
     this.expressApp.listen(this.config.get('PORT'));
     this.logger.info(`Server started on http://localhost:${this.config.get('PORT')}`);
+    const comment = await this.commentService.create({
+      message: `My comment ${new Date().toISOString()}`,
+      rating: 10,
+      postDate: new Date(),
+      userId: '64203e5cc388ef9e7d53e35d',
+      filmId: '642050e07a0ba612a72c199b',
+    });
+    console.log(comment);
+    const c = await this.commentService.findByFilmId('64203e5cc388ef9e7d53e35f');
+    console.log(c);
+    const f = await this.filmService.find(2);
+    console.log(f);
   }
 }

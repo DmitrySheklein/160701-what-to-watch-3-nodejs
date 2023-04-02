@@ -6,43 +6,18 @@ import { DocumentType, types } from '@typegoose/typegoose';
 import CreateCommentDto from './dto/create-comment.dto.js';
 import { SortType } from '../../types/sort-type.enum.js';
 import { DEFAULT_COMMENT_COUNT } from './comment.constant.js';
+import { FilmServiceInterface } from '../film/film-service.interface.js';
 
 @injectable()
 export default class CommentService implements CommentServiceInterface {
   constructor(
     @inject(Component.CommentModel) private readonly commentModel: types.ModelType<CommentEntity>,
+    @inject(Component.FilmServiceInterface) private readonly filmService: FilmServiceInterface,
   ) {}
 
   public async create(dto: CreateCommentDto): Promise<DocumentType<CommentEntity>> {
     const comment = await this.commentModel.create(dto);
-
-    // this.commentModel.aggregate([
-    //   {
-    //     $lookup: {
-    //       from: 'films',
-    //       localField: 'filmId',
-    //       foreignField: '_id',
-    //       pipeline: [
-    //         {
-    //           $project: {
-    //             rating: 1,
-    //           },
-    //         },
-    //       ],
-    //       as: 'filmRating',
-    //     },
-    //   },
-    //   {
-    //     $addFields: {
-    //       rating: {
-    //         $avg: '$filmRating',
-    //       },
-    //     },
-    //   },
-    //   {
-    //     $out: 'films',
-    //   },
-    // ]);
+    this.filmService.incCommentCount(dto.filmId, dto.rating);
 
     return comment.populate(['userId']);
   }
