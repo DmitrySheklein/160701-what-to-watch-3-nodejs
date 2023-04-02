@@ -14,6 +14,5 @@ export interface FilmServiceInterface {
   incCommentCount(filmID: string, userRating: number): Promise<void>;
   findPromo(): Promise<DocumentType<FilmEntity> | null>;
   findFavorite(): Promise<DocumentType<FilmEntity>[]>;
-  changeFavorite(filmId: string, status: number): Promise<DocumentType<FilmEntity> | null>;
   exists(documentId: string): Promise<boolean>;
 }
