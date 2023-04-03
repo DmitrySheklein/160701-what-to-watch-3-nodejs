@@ -14,7 +14,7 @@ export default class UserController extends Controller {
     this.addRoute({ path: '/register', method: HttpMethod.Post, handler: this.create });
   }
 
-  public create(_req: Request, _res: Response): void {
+  public async create(_req: Request, _res: Response): Promise<void> {
     throw new Error('User create ooops');
   }
 }
