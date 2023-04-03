@@ -8,6 +8,7 @@ import StatusCodes from 'http-status-codes';
 import FilmService from './film.service.js';
 import { fillDTO } from '../../utils/common.js';
 import FilmResponse from './response/film.response.js';
+import CreateFilmDto from './dto/create-film.dto.js';
 
 @injectable()
 export default class FilmController extends Controller {
@@ -28,7 +29,16 @@ export default class FilmController extends Controller {
     res.type('application/json').status(StatusCodes.OK).json(filmsResponse);
   }
 
-  public create(_: Request, res: Response): void {
-    res.type('application/json').status(StatusCodes.CREATED).json({ data: 'create' });
+  public async create(
+    { body }: Request<Record<string, unknown>, Record<string, unknown>, CreateFilmDto>,
+    res: Response,
+  ): Promise<void> {
+    const result = await this.filmService.create({
+      ...body,
+      userId: '64203e5cc388ef9e7d53e35d',
+    });
+    console.log(body);
+
+    this.send(res, StatusCodes.CREATED, fillDTO(FilmResponse, result));
   }
 }

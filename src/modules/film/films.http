@@ -5,3 +5,26 @@ GET http://localhost:3007/films HTTP/1.1
 Content-Type: application/json
 
 ###
+
+## Создать новую категорию
+
+POST http://localhost:3007/films HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Matrix",
+  "description": "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.",
+  "genre": "Drama",
+  "released": 2010,
+  "previewVideoLink": "https://11.react.pages.academy/static/film/video/traffic.mp4",
+  "videoLink": "https://11.react.pages.academy/static/film/video/bubbles.mp4",
+  "starring": [
+    "Bruce Willis"
+  ],
+  "director": "Quentin Tarantino",
+  "runTime": 130,
+  "posterImage": "https://11.react.pages.academy/static/film/poster/matrix.jpg",
+  "backgroundImage": "https://11.react.pages.academy/static/film/background/matrix.jpg",
+  "backgroundColor": "#B9B27E"
+}
+###
