@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { inject, injectable } from 'inversify';
-import { Component } from '../../types/component.types';
+import { Component } from '../../types/component.types.js';
 import { LoggerInterface } from '../logger/logger.interface';
 import { ExceptionFilterInterface } from './exception-filter.interface';
 import StatusCodes from 'http-status-codes';

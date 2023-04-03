@@ -10,6 +10,7 @@ import express, { Express } from 'express';
 // import { FilmServiceInterface } from '../modules/film/film-service.interface.js';
 import { UserServiceInterface } from '../modules/user/user-service.interface.js';
 import { ControllerInterface } from '../common/controller/controller.interface.js';
+import { ExceptionFilterInterface } from '../common/errors/exception-filter.interface.js';
 
 @injectable()
 export default class Application {
@@ -23,8 +24,13 @@ export default class Application {
     // @inject(Component.CommentServiceInterface) private commentService: CommentServiceInterface,
     @inject(Component.UserServiceInterface) private userService: UserServiceInterface,
     @inject(Component.FilmController) private filmController: ControllerInterface,
+    @inject(Component.ExceptionFilterInterface) private exceptionFilter: ExceptionFilterInterface,
   ) {
     this.expressApp = express();
+  }
+
+  public initExeptionFilters() {
+    this.expressApp.use(this.exceptionFilter.catch.bind(this.exceptionFilter));
   }
 
   public initRoutes() {
@@ -51,6 +57,7 @@ export default class Application {
     this.userService.findByEmail('sfsf@sgsgsg.ru');
     this.initMiddleware();
     this.initRoutes();
+    this.initExeptionFilters();
     this.expressApp.listen(this.config.get('PORT'));
     this.logger.info(`Server started on http://localhost:${this.config.get('PORT')}`);
   }

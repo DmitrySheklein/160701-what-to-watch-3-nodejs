@@ -7,6 +7,8 @@ import { DatabaseInterface } from '../common/database-client/database.interface.
 import DatabaseService from '../common/database-client/database.service.js';
 import { Component } from '../types/component.types.js';
 import Application from '../app/application.js';
+import { ExceptionFilterInterface } from '../common/errors/exception-filter.interface.js';
+import ExceptionFilter from '../common/errors/exception-filter.js';
 
 const applicationContainer = new Container();
 
@@ -16,6 +18,10 @@ applicationContainer.bind<ConfigInterface>(Component.ConfigInterface).to(ConfigS
 applicationContainer
   .bind<DatabaseInterface>(Component.DatabaseInterface)
   .to(DatabaseService)
+  .inSingletonScope();
+applicationContainer
+  .bind<ExceptionFilterInterface>(Component.ExceptionFilterInterface)
+  .to(ExceptionFilter)
   .inSingletonScope();
 
 export { applicationContainer };
