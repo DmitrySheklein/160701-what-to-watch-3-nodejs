@@ -6,7 +6,7 @@ Content-Type: application/json
 
 ###
 
-## Создать новую категорию
+## Создать новый фильм
 
 POST http://localhost:3007/films HTTP/1.1
 Content-Type: application/json
@@ -27,4 +27,5 @@ Content-Type: application/json
   "backgroundImage": "https://11.react.pages.academy/static/film/background/matrix.jpg",
   "backgroundColor": "#B9B27E"
 }
+### "created": "2023-04-03T18:18:14.595Z"
 ###
