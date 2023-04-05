@@ -26,8 +26,8 @@ export default class FilmController extends Controller {
 
   public async index(_: Request, res: Response): Promise<void> {
     const films = await this.filmService.find();
-    const filmsResponse = fillDTO(FilmResponse, films);
-    res.type('application/json').status(StatusCodes.OK).json(filmsResponse); //TODO fix to this.send
+
+    this.send(res, StatusCodes.OK, fillDTO(FilmResponse, films));
   }
 
   public async create(
@@ -35,14 +35,10 @@ export default class FilmController extends Controller {
     res: Response,
   ): Promise<void> {
     if (!body.userId) {
-      throw new HttpError(StatusCodes.UNAUTHORIZED, 'Only auth user create film', 'FilmController');
+      throw new HttpError(StatusCodes.UNAUTHORIZED, 'Only auth user can create film', 'FilmController');
     }
 
-    const result = await this.filmService.create({
-      ...body,
-      userId: '64203e5cc388ef9e7d53e35d',
-    });
-    console.log(body);
+    const result = await this.filmService.create(body);
 
     this.send(res, StatusCodes.CREATED, fillDTO(FilmResponse, result));
   }
