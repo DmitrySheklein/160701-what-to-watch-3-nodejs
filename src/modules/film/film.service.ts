@@ -6,8 +6,7 @@ import { FilmEntity, FilmModel } from './film.entity.js';
 import { inject, injectable } from 'inversify';
 import { Component } from '../../types/component.types.js';
 import { LoggerInterface } from '../../common/logger/logger.interface.js';
-import { SortType } from '../../types/sort-type.enum.js';
-import { DEFAULT_FILM_COUNT } from './film.constant.js';
+import { DEFAULT_FILM_COUNT, DEFAULT_FILM_SORT } from './film.constant.js';
 import { Genres } from '../../types/film.type.js';
 
 @injectable()
@@ -34,13 +33,13 @@ export default class FilmService implements FilmServiceInterface {
     return this.filmModel
       .aggregate([
         { $limit: limit },
-        { $sort: { postDate: SortType.Down } },
+        { $sort: DEFAULT_FILM_SORT },
         {
           $lookup: {
             from: 'users',
             localField: 'userId',
             foreignField: '_id',
-            as: 'user',
+            as: 'userId',
           },
         },
         {
@@ -51,7 +50,7 @@ export default class FilmService implements FilmServiceInterface {
             previewVideoLink: 1,
             commentCount: 1,
             posterImage: 1,
-            user: 1,
+            userId: 1,
           },
         },
       ])
@@ -74,7 +73,7 @@ export default class FilmService implements FilmServiceInterface {
 
     return this.filmModel
       .find({ genre: genre }, {}, { limit })
-      .sort({ postDate: SortType.Down })
+      .sort(DEFAULT_FILM_SORT)
       .populate(['userId'])
       .exec();
   }
@@ -104,7 +103,7 @@ export default class FilmService implements FilmServiceInterface {
   }
 
   public async findFavorite(): Promise<DocumentType<FilmEntity>[]> {
-    return this.filmModel.find().populate(['userId']).exec();
+    return this.filmModel.find().sort(DEFAULT_FILM_SORT).populate(['userId']).exec();
   }
 
   public async exists(documentId: string): Promise<boolean> {
