@@ -24,5 +24,5 @@ export default class FilmResponse {
   public commentCount!: Genres;
 
   @Expose()
-  public user!: string;
+  public userId!: string;
 }
