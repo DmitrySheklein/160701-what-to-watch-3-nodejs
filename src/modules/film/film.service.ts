@@ -24,7 +24,10 @@ export default class FilmService implements FilmServiceInterface {
   }
 
   public async findById(filmId: string): Promise<DocumentType<FilmEntity> | null> {
-    return this.filmModel.findById(filmId).populate(['userId']).exec();
+    return this.filmModel
+      .findById(filmId)
+      .populate(['userId'] /* TODO брать название ключа из переменной*/)
+      .exec();
   }
 
   public async find(count?: number): Promise<DocumentType<FilmEntity>[]> {

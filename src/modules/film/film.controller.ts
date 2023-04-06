@@ -90,7 +90,7 @@ export default class FilmController extends Controller {
     const limit = Number(req.query.limit);
 
     if (!genre) {
-      throw new HttpError(StatusCodes.NOT_FOUND, 'Не передан тип жанра', 'FilmController');
+      throw new HttpError(StatusCodes.NOT_FOUND, 'Не передан тип жанра', 'FilmController' /* TODO брать имя из переменной*/);
     }
 
     const film = await this.filmService.findByGenre('Drama', limit);
