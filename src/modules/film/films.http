@@ -11,6 +11,10 @@
 GET {{host}}/{{parentPath}} HTTP/1.1
 ###
 
+## Получить список фильмов c лимитом
+GET {{host}}/{{parentPath}}?limit=1 HTTP/1.1
+###
+
 ## Создать новый фильм
 POST {{host}}/{{parentPath}} HTTP/1.1
 Content-Type: {{contentType}}
@@ -47,7 +51,13 @@ GET {{host}}/{{parentPath}}/promo HTTP/1.1
 ###
 
 ## Получить фильм по жанру
-GET {{host}}/{{parentPath}}/genres/drama HTTP/1.1
+GET {{host}}/{{parentPath}}/genres/Drama HTTP/1.1
+###
+## Получить фильм по несуществующему жанру
+GET {{host}}/{{parentPath}}/genres/Lalalala HTTP/1.1
+###
+## Получить фильм по жанру c лимитом
+GET {{host}}/{{parentPath}}/genres/Drama?limit=1 HTTP/1.1
 ###
 
 ## Получить фильм по id
