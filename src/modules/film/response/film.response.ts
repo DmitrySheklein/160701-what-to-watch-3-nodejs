@@ -1,9 +1,10 @@
-import { Expose } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 import { Genres } from '../../../types/film.type.js';
+import UserResponse from '../../user/response/user.response.js';
 
 export default class FilmResponse {
-  @Expose()
-  public _id!: string;
+  @Expose({ name: '_id' })
+  public id!: string;
 
   @Expose()
   public name!: string;
@@ -23,6 +24,7 @@ export default class FilmResponse {
   @Expose()
   public commentCount!: Genres;
 
-  @Expose()
-  public userId!: string;
+  @Expose({ name: 'userId' })
+  @Type(() => UserResponse)
+  public user!: UserResponse;
 }
