@@ -16,7 +16,7 @@ import * as core from 'express-serve-static-core';
 import { RequestQuery } from '../../types/request-query.type.js';
 import { Genres } from '../../types/film.type.js';
 
-type ParamsGetFilm = {
+export type ParamsGetFilm = {
   filmId: string;
 };
 
