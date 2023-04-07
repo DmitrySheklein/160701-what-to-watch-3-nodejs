@@ -4,19 +4,19 @@
 @host = {{hostname}}:{{port}}
 @parentPath = comments
 @contentType = application/json
-@filmId = 642b1884aef7575bbadb851a
+@filmId = 642b1589f2a7670b6d002995
 
 ## Создать комментарий
 POST {{host}}/{{parentPath}}/{{filmId}} HTTP/1.1
 Content-Type: {{contentType}}
 
 {
-  "text": "Lorem ipsum",
-  "rating": 5
+  "message": "Lorem ipsum {{$randomInt 1 9}}",
+  "rating": {{$randomInt 1 9}}
 }
 
 ###
 
 ## Получить список комментариев
-GET  {{host}}/{{parentPath}} HTTP/1.1
+GET  {{host}}/{{parentPath}}/{{filmId}} HTTP/1.1
 ###

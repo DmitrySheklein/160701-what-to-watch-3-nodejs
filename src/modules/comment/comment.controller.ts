@@ -61,9 +61,10 @@ export default class CommentController extends Controller {
       throw new HttpError(StatusCodes.NOT_FOUND, `Film with id ${filmId} not found.`, 'CommentController');
     }
 
-    const comment = await this.commentService.create(filmId, {
+    const comment = await this.commentService.create({
       ...body,
       userId: '642b1589f2a7670b6d002993',
+      filmId,
     });
 
     this.created(res, fillDTO(CommentResponse, comment));
