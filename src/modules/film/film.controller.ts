@@ -15,6 +15,7 @@ import UpdateFilmDto from './dto/update-film.dto.js';
 import * as core from 'express-serve-static-core';
 import { RequestQuery } from '../../types/request-query.type.js';
 import { Genres } from '../../types/film.type.js';
+import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-objectid.middleware.js';
 
 export type ParamsGetFilm = {
   filmId: string;
@@ -36,10 +37,23 @@ export default class FilmController extends Controller {
     this.addRoute({ path: '/', method: HttpMethod.Get, handler: this.index });
     this.addRoute({ path: '/', method: HttpMethod.Post, handler: this.create });
     this.addRoute({ path: '/promo', method: HttpMethod.Get, handler: this.promo });
-    this.addRoute({ path: '/genres/:genre', method: HttpMethod.Get, handler: this.genre });
-    this.addRoute({ path: '/:filmId', method: HttpMethod.Delete, handler: this.delete });
-    this.addRoute({ path: '/:filmId', method: HttpMethod.Get, handler: this.show });
-    this.addRoute({ path: '/:filmId', method: HttpMethod.Patch, handler: this.update });
+    this.addRoute({
+      path: '/genres/:genre',
+      method: HttpMethod.Get,
+      handler: this.genre,
+    });
+    this.addRoute({
+      path: '/:filmId',
+      method: HttpMethod.Get,
+      handler: this.show,
+      middlewares: [new ValidateObjectIdMiddleware('filmId')],
+    });
+    this.addRoute({
+      path: '/:filmId',
+      method: HttpMethod.Patch,
+      handler: this.update,
+      middlewares: [new ValidateObjectIdMiddleware('filmId')],
+    });
   }
 
   public async index(
