@@ -1,8 +1,13 @@
 # Пользователи
+@hostname = http://localhost
+@port = 3007
+@host = {{hostname}}:{{port}}
+@parentPath = users
+@contentType = application/json
 ## Регистрация пользователя
 
-POST http://localhost:3007/users/register HTTP/1.1
-Content-Type: application/json
+POST {{host}}/{{parentPath}}/register HTTP/1.1
+Content-Type: {{contentType}}
 
 {
   "email": "torans@overlook.net",
@@ -16,8 +21,8 @@ Content-Type: application/json
 
 ## Авторизация пользователя
 
-POST http://localhost:3007/users/login HTTP/1.1
-Content-Type: application/json
+POST {{host}}/{{parentPath}}/login HTTP/1.1
+Content-Type: {{contentType}}
 
 {
   "email": "torans@overlook.net",
