@@ -45,7 +45,7 @@ export class FilmEntity extends defaultClasses.TimeStamps {
   @prop({ required: true })
   public previewVideoLink!: string;
 
-  @prop({ required: true, default: 0 })
+  @prop({ required: true, default: 0, min: 0, max: 10 })
   public rating!: number;
 
   @prop({ required: true, minlength: 2, maxlength: 50 })

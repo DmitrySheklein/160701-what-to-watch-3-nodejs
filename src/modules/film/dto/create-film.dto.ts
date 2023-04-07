@@ -3,8 +3,10 @@ import {
   IsArray,
   IsDateString,
   IsEnum,
+  IsHexColor,
   IsInt,
   IsMongoId,
+  IsString,
   Max,
   MaxLength,
   Min,
@@ -35,7 +37,7 @@ export default class CreateFilmDto {
   @MaxLength(256, { message: 'Too short for field backgroundImage' })
   public backgroundImage!: string;
 
-  @MaxLength(256, { message: 'Too short for field backgroundColor' })
+  @IsHexColor()
   public backgroundColor!: string;
 
   @MaxLength(256, { message: 'Too short for field videoLink' })
@@ -44,7 +46,7 @@ export default class CreateFilmDto {
   @MaxLength(256, { message: 'Too short for field previewVideoLink' })
   public previewVideoLink!: string;
 
-  @Min(1, { message: 'Minimum rating must be 1' })
+  @Min(0, { message: 'Minimum rating must be 1' })
   @Max(10, { message: 'Maximum rating must be 10' })
   @IsInt({ message: 'rating must be an integer' })
   public rating!: number;
@@ -54,7 +56,7 @@ export default class CreateFilmDto {
   public director!: string;
 
   @IsArray({ message: 'Field starring must be an array' })
-  @IsMongoId({ each: true, message: 'starring field must be an array of valid id' })
+  @IsString({ each: true, message: 'starring field must be an array of valid id' })
   public starring!: string[];
 
   @IsInt({ message: 'runTime must be an integer' })
