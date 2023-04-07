@@ -58,7 +58,7 @@ export default class FilmController extends Controller {
       path: '/:filmId',
       method: HttpMethod.Patch,
       handler: this.update,
-      middlewares: [new ValidateObjectIdMiddleware('filmId')],
+      middlewares: [new ValidateObjectIdMiddleware('filmId'), new ValidateDtoMiddleware(UpdateFilmDto)],
     });
   }
 
@@ -96,12 +96,13 @@ export default class FilmController extends Controller {
     res: Response,
   ): Promise<void> {
     const filmId = params.filmId;
+    const userId = true;
 
-    // if (!body.userId) {
-    //   throw new HttpError(StatusCodes.UNAUTHORIZED, 'Only auth user can create film', 'FilmController');
-    // }
+    if (!userId) {
+      throw new HttpError(StatusCodes.UNAUTHORIZED, 'Only auth user can update film', 'FilmController');
+    }
 
-    const film = await this.filmService.updateById(filmId, body);
+    const film = await this.filmService.updateById(filmId, { ...body, userId: '642b1589f2a7670b6d002993' });
 
     if (!film) {
       throw new HttpError(StatusCodes.NOT_FOUND, 'Фильм с таким id не найден', 'FilmController');
