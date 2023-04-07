@@ -13,6 +13,7 @@ import CommentResponse from './response/comment.response.js';
 import HttpError from '../../common/errors/http-error.js';
 import { StatusCodes } from 'http-status-codes';
 import { FilmServiceInterface } from '../film/film-service.interface.js';
+import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-objectid.middleware.js';
 
 @injectable()
 export default class CommentController extends Controller {
@@ -25,8 +26,18 @@ export default class CommentController extends Controller {
 
     this.logger.info('Register router for CommentController');
 
-    this.addRoute({ path: '/:filmId', method: HttpMethod.Get, handler: this.index });
-    this.addRoute({ path: '/:filmId', method: HttpMethod.Post, handler: this.create });
+    this.addRoute({
+      path: '/:filmId',
+      method: HttpMethod.Get,
+      handler: this.index,
+      middlewares: [new ValidateObjectIdMiddleware('filmId')],
+    });
+    this.addRoute({
+      path: '/:filmId',
+      method: HttpMethod.Post,
+      handler: this.create,
+      middlewares: [new ValidateObjectIdMiddleware('filmId')],
+    });
   }
 
   public async index(
