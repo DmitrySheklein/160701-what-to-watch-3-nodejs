@@ -6,7 +6,7 @@
 @filmId = 642b1884aef7575bbadb851a
 @filmDeleteId = 642f016485ae4bf95fee04d7
 @contentType = application/json
-
+@userId = 642b1589f2a7670b6d002993
 ## Получить список фильмов
 GET {{host}}/{{parentPath}} HTTP/1.1
 ###
@@ -20,7 +20,7 @@ POST {{host}}/{{parentPath}} HTTP/1.1
 Content-Type: {{contentType}}
 
 {
-  "name": "Nemo",
+  "name": "Avatar",
   "description": "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.",
   "genre": "Drama",
   "released": 2010,
@@ -29,11 +29,14 @@ Content-Type: {{contentType}}
   "starring": [
     "Bruce Willis"
   ],
+  "created": "2023-04-07T15:02:21.795Z",
   "director": "Quentin Tarantino",
   "runTime": 130,
   "posterImage": "https://11.react.pages.academy/static/film/poster/matrix.jpg",
   "backgroundImage": "https://11.react.pages.academy/static/film/background/matrix.jpg",
-  "backgroundColor": "#B9B27E"
+  "backgroundColor": "#B9B27E",
+  "rating": 0,
+  "userId": "{{userId}}"
 }
 ###
 
