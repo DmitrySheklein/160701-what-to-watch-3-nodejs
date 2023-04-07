@@ -15,9 +15,9 @@ export default class CommentService implements CommentServiceInterface {
     @inject(Component.FilmServiceInterface) private readonly filmService: FilmServiceInterface,
   ) {}
 
-  public async create(dto: CreateCommentDto): Promise<DocumentType<CommentEntity>> {
+  public async create(filmId: string, dto: CreateCommentDto): Promise<DocumentType<CommentEntity>> {
     const comment = await this.commentModel.create(dto);
-    this.filmService.incCommentCount(dto.filmId, dto.rating);
+    this.filmService.incCommentCount(filmId, dto.rating);
 
     return comment.populate(['userId']);
   }
