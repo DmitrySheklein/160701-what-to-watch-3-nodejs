@@ -5,7 +5,6 @@ import {
   IsEnum,
   IsHexColor,
   IsInt,
-  IsMongoId,
   IsString,
   Max,
   MaxLength,
