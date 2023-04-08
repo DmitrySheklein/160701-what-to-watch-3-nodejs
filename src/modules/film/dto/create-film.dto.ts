@@ -15,7 +15,7 @@ import {
 
 export default class CreateFilmDto {
   @MinLength(2, { message: 'Minimum name length must be 2' })
-  @MaxLength(10, { message: 'Maximum name length must be 10' })
+  @MaxLength(100, { message: 'Maximum name length must be 100' })
   public name!: string;
 
   @MinLength(20, { message: 'Minimum description length must be 20' })
