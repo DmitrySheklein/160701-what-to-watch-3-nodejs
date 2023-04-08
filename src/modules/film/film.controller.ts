@@ -102,7 +102,7 @@ export default class FilmController extends Controller {
       throw new HttpError(StatusCodes.UNAUTHORIZED, 'Only auth user can update film', 'FilmController');
     }
 
-    const film = await this.filmService.updateById(filmId, { ...body, userId: '642b1589f2a7670b6d002993' });
+    const film = await this.filmService.updateById(filmId, body);
 
     if (!film) {
       throw new HttpError(StatusCodes.NOT_FOUND, 'Фильм с таким id не найден', 'FilmController');
