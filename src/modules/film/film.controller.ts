@@ -82,7 +82,8 @@ export default class FilmController extends Controller {
     { query }: Request<core.ParamsDictionary, unknown, unknown, RequestQuery>,
     res: Response,
   ): Promise<void> {
-    const limit = query.limit;
+    const limit = Number(query.limit); //TODO фикс с typeof string
+
     const films = await this.filmService.find(limit);
 
     this.ok(res, fillDTO(FilmResponse, films));
