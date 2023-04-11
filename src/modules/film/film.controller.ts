@@ -17,6 +17,7 @@ import { RequestQuery } from '../../types/request-query.type.js';
 import { Genres } from '../../types/film.type.js';
 import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-objectid.middleware.js';
 import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
+import CommentService from '../comment/comment.service.js';
 
 export type ParamsGetFilm = {
   filmId: string;
@@ -36,6 +37,7 @@ export default class FilmController extends Controller {
   constructor(
     @inject(Component.LoggerInterface) logger: LoggerInterface,
     @inject(Component.FilmServiceInterface) private readonly filmService: FilmService,
+    @inject(Component.CommentServiceInterface) private readonly commentService: CommentService,
   ) {
     super(logger);
     this.logger.info('Register router for FilmController');
@@ -67,6 +69,12 @@ export default class FilmController extends Controller {
         new ValidateObjectIdMiddleware(FilmControllerRoute.FilmId),
         new ValidateDtoMiddleware(UpdateFilmDto),
       ],
+    });
+    this.addRoute({
+      path: `/:${FilmControllerRoute.FilmId}`,
+      method: HttpMethod.Delete,
+      handler: this.delete,
+      middlewares: [new ValidateObjectIdMiddleware(FilmControllerRoute.FilmId)],
     });
   }
 
@@ -175,6 +183,7 @@ export default class FilmController extends Controller {
     if (!film) {
       throw new HttpError(StatusCodes.NOT_FOUND, 'Фильм с таким id не найден', 'FilmController');
     }
+    await this.commentService.deleteByFilmId(film.id);
 
     this.noContent(res, fillDTO(FilmFullResponse, film));
   }
