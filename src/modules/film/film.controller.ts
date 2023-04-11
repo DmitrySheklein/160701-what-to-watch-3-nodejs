@@ -81,14 +81,10 @@ export default class FilmController extends Controller {
     if (!userId) {
       throw new HttpError(StatusCodes.UNAUTHORIZED, 'Only auth user can create film', 'FilmController');
     }
-    //TODO создание фильма и отдача без метода поиска
-    const result = await this.filmService.create({
-      ...body,
-      userId: '642b1589f2a7670b6d002993',
-      created: new Date(),
-    });
+    const result = await this.filmService.create(body);
+    const film = await this.filmService.findById(result.id);
 
-    this.created(res, fillDTO(FilmResponse, result));
+    this.created(res, fillDTO(FilmResponse, film));
   }
 
   public async update(
