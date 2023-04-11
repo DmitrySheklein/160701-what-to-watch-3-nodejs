@@ -67,6 +67,7 @@ export default class CommentController extends Controller {
   ): Promise<void> {
     const { filmId } = params;
 
+    const userId = '642b1589f2a7670b6d002993';
     // if (!userId) {
     //   throw new HttpError(StatusCodes.UNAUTHORIZED, 'Only auth user can create film', 'FilmController');
     // }
@@ -74,6 +75,7 @@ export default class CommentController extends Controller {
     const comment = await this.commentService.create({
       ...body,
       filmId,
+      userId,
     });
 
     this.created(res, fillDTO(CommentResponse, comment));
