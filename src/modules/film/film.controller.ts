@@ -113,19 +113,30 @@ export default class FilmController extends Controller {
     this.send(res, StatusCodes.OK, fillDTO(FilmFullResponse, film));
   }
 
+  private isGenre(genre: string | Genres): genre is Genres {
+    return Object.values(Genres)
+      .map((el) => el.toLocaleLowerCase())
+      .includes(genre as Genres);
+  }
+
   public async genre(
     { params, query }: Request<core.ParamsDictionary | ParamsGenreFilm, unknown, unknown, RequestQuery>,
     res: Response,
   ): Promise<void> {
-    const genre = params.genre as Genres;
-    const limit = query.limit;
+    const paramGenre = params.genre;
 
+    if (!this.isGenre(paramGenre)) {
+      throw new HttpError(StatusCodes.BAD_REQUEST, 'Несуществующий тип жанра', 'FilmController');
+    }
+    const [first, ...rest] = paramGenre;
+    const genre = [first.toUpperCase(), ...rest].join('') as Genres;
+    const limit = query.limit;
     const films = await this.filmService.findByGenre(genre, limit);
 
     if (!films.length) {
       throw new HttpError(
         StatusCodes.NOT_FOUND,
-        `Фильмы жанра ${genre} не найдены`,
+        `Фильмы жанра "${genre}" не найдены`,
         'FilmController' /* TODO брать имя из переменной*/,
       );
     }
