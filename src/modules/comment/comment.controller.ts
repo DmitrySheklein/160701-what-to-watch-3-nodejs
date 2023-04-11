@@ -74,7 +74,6 @@ export default class CommentController extends Controller {
 
     const comment = await this.commentService.create({
       ...body,
-      userId: '642b1589f2a7670b6d002993',
       filmId,
     });
 
