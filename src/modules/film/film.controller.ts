@@ -26,6 +26,11 @@ type ParamsGenreFilm = {
   genre: Genres;
 };
 
+const FilmControllerRoute = {
+  FilmId: 'filmId',
+  Genre: 'genre',
+};
+
 @injectable()
 export default class FilmController extends Controller {
   constructor(
@@ -44,21 +49,24 @@ export default class FilmController extends Controller {
     });
     this.addRoute({ path: '/promo', method: HttpMethod.Get, handler: this.promo });
     this.addRoute({
-      path: '/genres/:genre',
+      path: `/genres/:${FilmControllerRoute.Genre}`,
       method: HttpMethod.Get,
       handler: this.genre,
     });
     this.addRoute({
-      path: '/:filmId',
+      path: `/:${FilmControllerRoute.FilmId}`,
       method: HttpMethod.Get,
       handler: this.show,
-      middlewares: [new ValidateObjectIdMiddleware('filmId')],
+      middlewares: [new ValidateObjectIdMiddleware(FilmControllerRoute.FilmId)],
     });
     this.addRoute({
-      path: '/:filmId',
+      path: `/:${FilmControllerRoute.FilmId}`,
       method: HttpMethod.Patch,
       handler: this.update,
-      middlewares: [new ValidateObjectIdMiddleware('filmId'), new ValidateDtoMiddleware(UpdateFilmDto)],
+      middlewares: [
+        new ValidateObjectIdMiddleware(FilmControllerRoute.FilmId),
+        new ValidateDtoMiddleware(UpdateFilmDto),
+      ],
     });
   }
 
