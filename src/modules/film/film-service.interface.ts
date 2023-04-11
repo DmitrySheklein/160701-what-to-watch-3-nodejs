@@ -3,8 +3,9 @@ import { FilmEntity } from './film.entity.js';
 import CreateFilmDto from './dto/create-film.dto.js';
 import UpdateFilmDto from './dto/update-film.dto.js';
 import { Genres } from '../../types/film.type.js';
+import { DocumentExistsInterface } from '../../types/document-exists.interface.js';
 
-export interface FilmServiceInterface {
+export interface FilmServiceInterface extends DocumentExistsInterface {
   create(dto: CreateFilmDto): Promise<DocumentType<FilmEntity>>;
   findById(filmID: string): Promise<DocumentType<FilmEntity> | null>;
   find(count?: number): Promise<DocumentType<FilmEntity>[]>;
@@ -14,5 +15,4 @@ export interface FilmServiceInterface {
   incCommentCount(filmID: string, userRating: number): Promise<void>;
   findPromo(): Promise<DocumentType<FilmEntity> | null>;
   findFavorite(): Promise<DocumentType<FilmEntity>[]>;
-  exists(documentId: string): Promise<boolean>;
 }
