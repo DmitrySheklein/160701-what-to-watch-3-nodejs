@@ -18,6 +18,7 @@ import { Genres } from '../../types/film.type.js';
 import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-objectid.middleware.js';
 import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
 import CommentService from '../comment/comment.service.js';
+import { DocumentExistsMiddleware } from '../../common/middlewares/document-exists.middleware.js';
 
 export type ParamsGetFilm = {
   filmId: string;
@@ -59,7 +60,10 @@ export default class FilmController extends Controller {
       path: `/:${FilmControllerRoute.FilmId}`,
       method: HttpMethod.Get,
       handler: this.show,
-      middlewares: [new ValidateObjectIdMiddleware(FilmControllerRoute.FilmId)],
+      middlewares: [
+        new ValidateObjectIdMiddleware(FilmControllerRoute.FilmId),
+        new DocumentExistsMiddleware(this.filmService, 'Film', 'filmId'),
+      ],
     });
     this.addRoute({
       path: `/:${FilmControllerRoute.FilmId}`,
@@ -68,13 +72,17 @@ export default class FilmController extends Controller {
       middlewares: [
         new ValidateObjectIdMiddleware(FilmControllerRoute.FilmId),
         new ValidateDtoMiddleware(UpdateFilmDto),
+        new DocumentExistsMiddleware(this.filmService, 'Film', 'filmId'),
       ],
     });
     this.addRoute({
       path: `/:${FilmControllerRoute.FilmId}`,
       method: HttpMethod.Delete,
       handler: this.delete,
-      middlewares: [new ValidateObjectIdMiddleware(FilmControllerRoute.FilmId)],
+      middlewares: [
+        new ValidateObjectIdMiddleware(FilmControllerRoute.FilmId),
+        new DocumentExistsMiddleware(this.filmService, 'Film', 'filmId'),
+      ],
     });
   }
 
@@ -116,10 +124,6 @@ export default class FilmController extends Controller {
     }
 
     const film = await this.filmService.updateById(filmId, body);
-
-    if (!film) {
-      throw new HttpError(StatusCodes.NOT_FOUND, 'Фильм с таким id не найден', 'FilmController');
-    }
 
     this.ok(res, fillDTO(FilmResponse, film));
   }
@@ -167,10 +171,6 @@ export default class FilmController extends Controller {
     const { filmId } = params;
     const film = await this.filmService.findById(filmId);
 
-    if (!film) {
-      throw new HttpError(StatusCodes.NOT_FOUND, 'Фильм с таким id не найден', 'FilmController');
-    }
-
     this.ok(res, fillDTO(FilmFullResponse, film));
   }
 
@@ -181,10 +181,7 @@ export default class FilmController extends Controller {
     const { filmId } = params;
     const film = await this.filmService.deleteById(filmId);
 
-    if (!film) {
-      throw new HttpError(StatusCodes.NOT_FOUND, 'Фильм с таким id не найден', 'FilmController');
-    }
-    await this.commentService.deleteByFilmId(film.id);
+    await this.commentService.deleteByFilmId(film?.id);
 
     this.noContent(res, fillDTO(FilmFullResponse, film));
   }
