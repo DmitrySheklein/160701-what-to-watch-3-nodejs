@@ -1,9 +1,10 @@
 # Пользователи
 @hostname = http://localhost
-@port = 3007
+@port = 3008
 @host = {{hostname}}:{{port}}
 @parentPath = users
 @contentType = application/json
+@userId = 642b1589f2a7670b6d002993
 ## Регистрация пользователя
 
 POST {{host}}/{{parentPath}}/register HTTP/1.1
@@ -30,3 +31,14 @@ Content-Type: {{contentType}}
 }
 
 ###
+## Отправка аватарки пользователю
+
+POST {{host}}/{{parentPath}}/{{userId}}/avatar HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="avatar"; filename="man.png"
+Content-Type: image/png
+
+< /Users/dmitrij/Documents/man.png
+------WebKitFormBoundary7MA4YWxkTrZu0gW--

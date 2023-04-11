@@ -1,10 +1,10 @@
 # Пользователи
 @hostname = http://localhost
-@port = 3007
+@port = 3008
 @host = {{hostname}}:{{port}}
 @parentPath = comments
 @contentType = application/json
-@filmId = 6434fd4b8f0d2a0ef4585fa6
+@filmId = 642b1589f2a7670b6d00299a
 @userId = 64203e5cc388ef9e7d53e35d
 ## Создать комментарий
 POST {{host}}/{{parentPath}}/{{filmId}} HTTP/1.1
@@ -12,8 +12,7 @@ Content-Type: {{contentType}}
 
 {
   "message": "Lorem ipsum {{$randomInt 1 9}}",
-  "rating": "{{$randomInt 1 9}}",
-  "userId": "{{userId}}"
+  "rating": {{$randomInt 1 9}}
 }
 ###
 

@@ -1,10 +1,10 @@
 # Фильмы
 @hostname = http://localhost
-@port = 3007
+@port = 3008
 @host = {{hostname}}:{{port}}
 @parentPath = films
 @filmId = 642b1884aef7575bbadb851a
-@filmDeleteId = 642f016485ae4bf95fee04d7
+@filmDeleteId = 643040d4926ca3e9c11ebc88
 @contentType = application/json
 @userId = 642b1589f2a7670b6d002993
 ## Получить список фильмов
@@ -54,13 +54,13 @@ GET {{host}}/{{parentPath}}/promo HTTP/1.1
 ###
 
 ## Получить фильм по жанру
-GET {{host}}/{{parentPath}}/genres/Drama HTTP/1.1
+GET {{host}}/{{parentPath}}/genres/drama HTTP/1.1
 ###
 ## Получить фильм по несуществующему жанру
-GET {{host}}/{{parentPath}}/genres/Lalalala HTTP/1.1
+GET {{host}}/{{parentPath}}/genres/lalalala HTTP/1.1
 ###
 ## Получить фильм по жанру c лимитом
-GET {{host}}/{{parentPath}}/genres/Drama?limit=1 HTTP/1.1
+GET {{host}}/{{parentPath}}/genres/drama?limit=2 HTTP/1.1
 ###
 
 ## Получить фильм по id
