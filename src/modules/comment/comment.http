@@ -4,19 +4,20 @@
 @host = {{hostname}}:{{port}}
 @parentPath = comments
 @contentType = application/json
-@filmId = 642b1589f2a7670b6d002995
-
+@filmId = 6434fd4b8f0d2a0ef4585fa6
+@userId = 64203e5cc388ef9e7d53e35d
 ## Создать комментарий
 POST {{host}}/{{parentPath}}/{{filmId}} HTTP/1.1
 Content-Type: {{contentType}}
 
 {
   "message": "Lorem ipsum {{$randomInt 1 9}}",
-  "rating": {{$randomInt 1 9}}
+  "rating": "{{$randomInt 1 9}}",
+  "userId": "{{userId}}"
 }
 ###
 
-## Создать комментарий
+## Создать невалидный комментарий
 POST {{host}}/{{parentPath}}/{{filmId}} HTTP/1.1
 Content-Type: {{contentType}}
 

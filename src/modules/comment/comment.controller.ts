@@ -10,10 +10,10 @@ import CreateCommentDto from './dto/create-comment.dto.js';
 import { ParamsGetFilm } from '../film/film.controller.js';
 import * as core from 'express-serve-static-core';
 import CommentResponse from './response/comment.response.js';
-import HttpError from '../../common/errors/http-error.js';
-import { StatusCodes } from 'http-status-codes';
 import { FilmServiceInterface } from '../film/film-service.interface.js';
 import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-objectid.middleware.js';
+import { DocumentExistsMiddleware } from '../../common/middlewares/document-exists.middleware.js';
+import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
 
 @injectable()
 export default class CommentController extends Controller {
@@ -30,13 +30,20 @@ export default class CommentController extends Controller {
       path: '/:filmId',
       method: HttpMethod.Get,
       handler: this.index,
-      middlewares: [new ValidateObjectIdMiddleware('filmId')],
+      middlewares: [
+        new ValidateObjectIdMiddleware('filmId'),
+        new DocumentExistsMiddleware(this.filmService, 'Film', 'filmId'),
+      ],
     });
     this.addRoute({
       path: '/:filmId',
       method: HttpMethod.Post,
       handler: this.create,
-      middlewares: [new ValidateObjectIdMiddleware('filmId')],
+      middlewares: [
+        new ValidateObjectIdMiddleware('filmId'),
+        new ValidateDtoMiddleware(CreateCommentDto),
+        new DocumentExistsMiddleware(this.filmService, 'Film', 'filmId'),
+      ],
     });
   }
 
@@ -45,10 +52,6 @@ export default class CommentController extends Controller {
     res: Response,
   ): Promise<void> {
     const { filmId } = params;
-
-    if (!(await this.filmService.exists(filmId))) {
-      throw new HttpError(StatusCodes.NOT_FOUND, `Film with id ${filmId} not found.`, 'CommentController');
-    }
 
     const comment = await this.commentService.findByFilmId(filmId);
 
@@ -67,10 +70,6 @@ export default class CommentController extends Controller {
     // if (!userId) {
     //   throw new HttpError(StatusCodes.UNAUTHORIZED, 'Only auth user can create film', 'FilmController');
     // }
-
-    if (!(await this.filmService.exists(filmId))) {
-      throw new HttpError(StatusCodes.NOT_FOUND, `Film with id ${filmId} not found.`, 'CommentController');
-    }
 
     const comment = await this.commentService.create({
       ...body,
