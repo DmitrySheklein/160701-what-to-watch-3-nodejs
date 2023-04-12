@@ -2,35 +2,37 @@ import { inject, injectable } from 'inversify';
 import { FavoriteServiceInterface } from './favorite-service.interface.js';
 import { Component } from '../../types/component.types.js';
 import { FavoriteEntity } from './favorite.entity.js';
-import { DocumentType, types } from '@typegoose/typegoose';
+import { DocumentType, mongoose, types } from '@typegoose/typegoose';
 import ChangeFavoriteDto from './dto/change-favorite.dto.js';
 import { SortType } from '../../types/sort-type.enum.js';
+import { LoggerInterface } from '../../common/logger/logger.interface.js';
+import { log } from 'console';
+
+const { Types } = mongoose;
 
 @injectable()
 export default class FavoriteService implements FavoriteServiceInterface {
   constructor(
+    @inject(Component.LoggerInterface) private readonly logger: LoggerInterface,
     @inject(Component.FavoriteModel) private readonly favoriteModel: types.ModelType<FavoriteEntity>,
   ) {}
 
   public async create(dto: ChangeFavoriteDto): Promise<DocumentType<FavoriteEntity>> {
     const favorite = await this.favoriteModel.create(dto);
+    this.logger.info(`New film added favorite: ${dto.filmId}`);
 
     return favorite;
   }
 
-  public async find(userId: string): Promise<string[] | null> {
-    // return this.favoriteModel.find({ filmId, userId }).sort({ postDate: SortType.Down }).exec();
-    return this.favoriteModel
-      .find({ userId })
-      .aggregate([
-        { $sort: { postDate: SortType.Down } },
-        {
-          $project: {
-            filmId: 1,
-          },
-        },
-      ])
-      .exec();
+  public async findAll(userId: string): Promise<(string | undefined)[] | null> {
+    const documents = await this.favoriteModel.find({ userId });
+    const filmsId = documents.map((el) => el.filmId?.toString());
+
+    return filmsId;
+  }
+
+  public async findByFilmId(filmId: string, userId: string): Promise<DocumentType<FavoriteEntity> | null> {
+    return this.favoriteModel.findOne({ filmId, userId }).exec();
   }
 
   public async delete(filmId: string, userId: string): Promise<number> {

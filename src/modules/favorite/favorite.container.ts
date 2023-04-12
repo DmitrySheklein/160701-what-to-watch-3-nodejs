@@ -20,4 +20,4 @@ favoriteContainer
   .to(FavoriteController)
   .inSingletonScope();
 
-export { favoriteContainer as commentContainer };
+export { favoriteContainer };

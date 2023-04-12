@@ -6,8 +6,15 @@ import { applicationContainer } from './app/application.container.js';
 import { userContainer } from './modules/user/user.container.js';
 import { filmContainer } from './modules/film/film.container.js';
 import { commentContainer } from './modules/comment/comment.container.js';
+import { favoriteContainer } from './modules/favorite/favorite.container.js';
 
-const mainContainer = Container.merge(applicationContainer, userContainer, filmContainer, commentContainer);
+const mainContainer = Container.merge(
+  applicationContainer,
+  userContainer,
+  filmContainer,
+  commentContainer,
+  favoriteContainer,
+);
 
 async function bootstrap() {
   const application = mainContainer.get<Application>(Component.Application);

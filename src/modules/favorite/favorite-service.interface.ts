@@ -4,6 +4,7 @@ import { FavoriteEntity } from './favorite.entity.js';
 
 export interface FavoriteServiceInterface {
   create(dto: ChangeFavoriteDto): Promise<DocumentType<FavoriteEntity>>;
-  find(userId: string): Promise<string[] | null>;
+  findAll(userId: string): Promise<(string | undefined)[] | null>;
+  findByFilmId(filmId: string, userId: string): Promise<DocumentType<FavoriteEntity> | null>;
   delete(filmId: string, userId: string): Promise<number | null>;
 }
