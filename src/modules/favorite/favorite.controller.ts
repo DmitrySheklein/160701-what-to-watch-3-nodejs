@@ -12,7 +12,6 @@ import { DocumentExistsMiddleware } from '../../common/middlewares/document-exis
 import { RequestQuery } from '../../types/request-query.type.js';
 import { fillDTO } from '../../utils/common.js';
 import FilmResponse from '../film/response/film.response.js';
-import FilmFullResponse from '../film/response/film-full.response.js';
 
 type ParamsFavorite = {
   filmId: string;
@@ -66,7 +65,7 @@ export default class FavoriteController extends Controller {
       }
     }
 
-    this.ok(res, fillDTO(FilmFullResponse, films));
+    this.ok(res, fillDTO(FilmResponse, films));
   }
 
   public async add(
