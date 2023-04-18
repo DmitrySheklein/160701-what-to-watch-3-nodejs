@@ -11,6 +11,7 @@ import express, { Express } from 'express';
 import { UserServiceInterface } from '../modules/user/user-service.interface.js';
 import { ControllerInterface } from '../common/controller/controller.interface.js';
 import { ExceptionFilterInterface } from '../common/errors/exception-filter.interface.js';
+import { AuthtenticateMiddleware } from '../common/middlewares/authtenticate.middleware.js';
 
 @injectable()
 export default class Application {
@@ -46,6 +47,9 @@ export default class Application {
   public initMiddleware() {
     this.expressApp.use(express.json());
     this.expressApp.use('/upload', express.static(this.config.get('UPLOAD_DIRECTORY')));
+
+    const authtenticateMiddleware = new AuthtenticateMiddleware(this.config.get('JWT_SECRET'));
+    this.expressApp.use(authtenticateMiddleware.execute.bind(authtenticateMiddleware));
   }
 
   public async init() {
