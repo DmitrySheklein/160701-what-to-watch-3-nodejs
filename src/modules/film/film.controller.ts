@@ -19,6 +19,7 @@ import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-ob
 import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
 import CommentService from '../comment/comment.service.js';
 import { DocumentExistsMiddleware } from '../../common/middlewares/document-exists.middleware.js';
+import { PrivateRouteMiddleware } from '../../common/middlewares/private-route.middleware.js';
 
 export type ParamsGetFilm = {
   filmId: string;
@@ -48,7 +49,7 @@ export default class FilmController extends Controller {
       path: '/',
       method: HttpMethod.Post,
       handler: this.create,
-      middlewares: [new ValidateDtoMiddleware(CreateFilmDto)],
+      middlewares: [new PrivateRouteMiddleware(), new ValidateDtoMiddleware(CreateFilmDto)],
     });
     this.addRoute({ path: '/promo', method: HttpMethod.Get, handler: this.promo });
     this.addRoute({
@@ -70,6 +71,7 @@ export default class FilmController extends Controller {
       method: HttpMethod.Patch,
       handler: this.update,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware(FilmControllerRoute.FilmId),
         new ValidateDtoMiddleware(UpdateFilmDto),
         new DocumentExistsMiddleware(this.filmService, 'Film', 'filmId'),
@@ -80,6 +82,7 @@ export default class FilmController extends Controller {
       method: HttpMethod.Delete,
       handler: this.delete,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware(FilmControllerRoute.FilmId),
         new DocumentExistsMiddleware(this.filmService, 'Film', 'filmId'),
       ],

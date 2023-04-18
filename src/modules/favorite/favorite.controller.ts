@@ -12,6 +12,7 @@ import { DocumentExistsMiddleware } from '../../common/middlewares/document-exis
 import { RequestQuery } from '../../types/request-query.type.js';
 import { fillDTO } from '../../utils/common.js';
 import FilmResponse from '../film/response/film.response.js';
+import { PrivateRouteMiddleware } from '../../common/middlewares/private-route.middleware.js';
 
 type ParamsFavorite = {
   filmId: string;
@@ -32,12 +33,14 @@ export default class FavoriteController extends Controller {
       path: '/',
       method: HttpMethod.Get,
       handler: this.index,
+      middlewares: [new PrivateRouteMiddleware()],
     });
     this.addRoute({
       path: '/:filmId/1',
       method: HttpMethod.Post,
       handler: this.add,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('filmId'),
         new DocumentExistsMiddleware(this.filmService, 'Film', 'filmId'),
       ],
@@ -47,6 +50,7 @@ export default class FavoriteController extends Controller {
       method: HttpMethod.Post,
       handler: this.delete,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('filmId'),
         new DocumentExistsMiddleware(this.filmService, 'Film', 'filmId'),
       ],
