@@ -59,18 +59,12 @@ export default class CommentController extends Controller {
   }
 
   public async create(
-    {
-      params,
-      body,
-    }: Request<core.ParamsDictionary | ParamsGetFilm, Record<string, unknown>, CreateCommentDto>,
+    req: Request<core.ParamsDictionary | ParamsGetFilm, Record<string, unknown>, CreateCommentDto>,
     res: Response,
   ): Promise<void> {
-    const { filmId } = params;
-
-    const userId = '642b1589f2a7670b6d002993';
-    // if (!userId) {
-    //   throw new HttpError(StatusCodes.UNAUTHORIZED, 'Only auth user can create film', 'FilmController');
-    // }
+    const { body } = req;
+    const { filmId } = req.params;
+    const userId = req.user.id;
 
     const comment = await this.commentService.create({
       ...body,
