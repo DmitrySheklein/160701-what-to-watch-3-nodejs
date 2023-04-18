@@ -29,4 +29,5 @@ Content-Type: {{contentType}}
 
 ## Получить список комментариев
 GET  {{host}}/{{parentPath}}/{{filmId}} HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJpZCI6IjY0MmIzNmVkYzE0YjZlYzVhOWRhNWI4NiIsImlhdCI6MTY4MTg0MTY0OSwiZXhwIjoxNjgyMDE0NDQ5fQ.WQtIEXYpH0UdFu8jQUid5zB6oElx1MNu7Wpv3wcZ1oI
 ###
