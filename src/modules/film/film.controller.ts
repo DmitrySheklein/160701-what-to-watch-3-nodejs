@@ -101,15 +101,15 @@ export default class FilmController extends Controller {
   }
 
   public async create(
-    { body }: Request<Record<string, unknown>, Record<string, unknown>, CreateFilmDto>,
+    req: Request<Record<string, unknown>, Record<string, unknown>, CreateFilmDto>,
     res: Response,
   ): Promise<void> {
-    const userId = true;
+    const {
+      body,
+      user: { id: userId },
+    } = req;
 
-    if (!userId) {
-      throw new HttpError(StatusCodes.UNAUTHORIZED, 'Only auth user can create film', 'FilmController');
-    }
-    const result = await this.filmService.create(body);
+    const result = await this.filmService.create({ ...body, userId });
     const film = await this.filmService.findById(result.id);
 
     this.created(res, fillDTO(FilmResponse, film));

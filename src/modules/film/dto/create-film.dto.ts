@@ -5,7 +5,6 @@ import {
   IsEnum,
   IsHexColor,
   IsInt,
-  IsMongoId,
   IsString,
   Max,
   MaxLength,
@@ -62,6 +61,5 @@ export default class CreateFilmDto {
   @IsInt({ message: 'runTime must be an integer' })
   public runTime!: number;
 
-  @IsMongoId({ message: 'userId field must be valid an id' })
   public userId!: string;
 }
