@@ -13,6 +13,8 @@ export type ConfigSchema = {
   DB_NAME: string;
   UPLOAD_DIRECTORY: string;
   JWT_SECRET: string;
+  JWT_ALGORITM: string;
+  JWT_EXPIRATION_TIME: string;
 };
 
 export const configSchema = convict<ConfigSchema>({
@@ -69,5 +71,17 @@ export const configSchema = convict<ConfigSchema>({
     format: String,
     env: 'JWT_SECRET',
     default: null,
+  },
+  JWT_ALGORITM: {
+    doc: 'Algoritm Type',
+    format: String,
+    env: 'JWT_ALGORITM',
+    default: 'HS256',
+  },
+  JWT_EXPIRATION_TIME: {
+    doc: 'JWT ExpirationTime',
+    format: String,
+    env: 'JWT_EXPIRATION_TIME',
+    default: '2d',
   },
 });
