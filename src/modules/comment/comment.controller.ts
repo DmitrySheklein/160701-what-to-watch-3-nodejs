@@ -73,7 +73,7 @@ export default class CommentController extends Controller {
       filmId,
       userId,
     });
-
+    await this.filmService.incCommentCount(filmId, body.rating);
     this.created(res, fillDTO(CommentResponse, comment));
   }
 }
