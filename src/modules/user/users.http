@@ -4,7 +4,6 @@
 @host = {{hostname}}:{{port}}
 @parentPath = users
 @contentType = application/json
-@userId = 642b1589f2a7670b6d002993
 @token = eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJpZCI6IjY0MmIzNmVkYzE0YjZlYzVhOWRhNWI4NiIsImlhdCI6MTY4MjA5MzA3MSwiZXhwIjoxNjgyMjY1ODcxfQ.HMPchOGxnNbDEePSVKLBTYDP6nN93JbQ-5CTxfmymng
 ## Регистрация пользователя
 
@@ -40,7 +39,8 @@ Authorization: Bearer {{token}}
 ###
 ## Отправка аватарки пользователю
 
-POST {{host}}/{{parentPath}}/{{userId}}/avatar HTTP/1.1
+POST {{host}}/{{parentPath}}/avatar HTTP/1.1
+Authorization: Bearer {{token}}
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
