@@ -4,8 +4,8 @@
 @host = {{hostname}}:{{port}}
 @parentPath = favorite
 @contentType = application/json
-@filmId = 642b1589f2a7670b6d002995
-@token = eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJpZCI6IjY0MmIzNmVkYzE0YjZlYzVhOWRhNWI4NiIsImlhdCI6MTY4MjA5MzA3MSwiZXhwIjoxNjgyMjY1ODcxfQ.HMPchOGxnNbDEePSVKLBTYDP6nN93JbQ-5CTxfmymng
+@filmId = 6442c2f9c8370b11a4759f59
+@token = eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Imtla3NAb3Zlcmxvb2submV0IiwiaWQiOiI2NDQyYzY1YmZhZmMzNGIxZTJmYThiNDkiLCJpYXQiOjE2ODIwOTc5MTMsImV4cCI6MTY4MjI3MDcxM30.3FAQn9axTYbijGf9wUEZ8UBYiYe2QE5LHLXSNRROx7M
 ## Добавить в избранное
 POST {{host}}/{{parentPath}}/{{filmId}}/1 HTTP/1.1
 Authorization: Bearer {{token}}

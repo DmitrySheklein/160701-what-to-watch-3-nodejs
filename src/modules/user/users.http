@@ -11,10 +11,10 @@ POST {{host}}/{{parentPath}}/register HTTP/1.1
 Content-Type: {{contentType}}
 
 {
-  "email": "torans@overlook.net",
+  "email": "keks@overlook.net",
   "avatarPath": "torrance.png",
-  "firstname": "Jack",
-  "lastname": "Torrance",
+  "firstname": "keks",
+  "lastname": "keksovich",
   "password": "shining"
 }
 
@@ -26,7 +26,7 @@ POST {{host}}/{{parentPath}}/login HTTP/1.1
 Content-Type: {{contentType}}
 
 {
-  "email": "torans@overlook.net",
+  "email": "keks@overlook.net",
   "password": "shining"
 }
 ###

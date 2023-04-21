@@ -6,10 +6,16 @@
 @filmId = 642b1884aef7575bbadb851a
 @filmDeleteId = 643040d4926ca3e9c11ebc88
 @contentType = application/json
-@userId = 642b1589f2a7670b6d002993
-@token = eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJpZCI6IjY0MmIzNmVkYzE0YjZlYzVhOWRhNWI4NiIsImlhdCI6MTY4MjA5MzA3MSwiZXhwIjoxNjgyMjY1ODcxfQ.HMPchOGxnNbDEePSVKLBTYDP6nN93JbQ-5CTxfmymng
+@userId = 6442c65bfafc34b1e2fa8b49
+@token = eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Imtla3NAb3Zlcmxvb2submV0IiwiaWQiOiI2NDQyYzY1YmZhZmMzNGIxZTJmYThiNDkiLCJpYXQiOjE2ODIwOTc4MjksImV4cCI6MTY4MjI3MDYyOX0.s3kQd1OAxFMbuOgrZV3Tji4XlO9hByW_DjrwzEys4kk
+
 ## Получить список фильмов
 GET {{host}}/{{parentPath}} HTTP/1.1
+###
+
+## Получить список фильмов Auth
+GET {{host}}/{{parentPath}} HTTP/1.1
+Authorization: Bearer {{token}}
 ###
 
 ## Получить список фильмов c лимитом
@@ -22,9 +28,9 @@ Authorization: Bearer {{token}}
 Content-Type: {{contentType}}
 
 {
-  "name": "Avatar",
+  "name": "Bob",
   "description": "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.",
-  "genre": "Drama",
+  "genre": "Comedy",
   "released": 2010,
   "previewVideoLink": "https://11.react.pages.academy/static/film/video/traffic.mp4",
   "videoLink": "https://11.react.pages.academy/static/film/video/bubbles.mp4",
@@ -37,8 +43,7 @@ Content-Type: {{contentType}}
   "posterImage": "https://11.react.pages.academy/static/film/poster/matrix.jpg",
   "backgroundImage": "https://11.react.pages.academy/static/film/background/matrix.jpg",
   "backgroundColor": "#B9B27E",
-  "rating": 0,
-  "userId": "{{userId}}"
+  "rating": 0
 }
 ###
 
@@ -63,7 +68,7 @@ GET {{host}}/{{parentPath}}/genres/drama HTTP/1.1
 GET {{host}}/{{parentPath}}/genres/lalalala HTTP/1.1
 ###
 ## Получить фильм по жанру c лимитом
-GET {{host}}/{{parentPath}}/genres/drama?limit=2 HTTP/1.1
+GET {{host}}/{{parentPath}}/genres/comedy?limit=1 HTTP/1.1
 ###
 
 ## Получить фильм по id
