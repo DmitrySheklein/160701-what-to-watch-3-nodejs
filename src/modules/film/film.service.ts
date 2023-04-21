@@ -88,7 +88,10 @@ export default class FilmService implements FilmServiceInterface {
     if (!existFilm) {
       throw new Error(`The film with id: ${filmID} doesn't exist`);
     }
-    const newRating = (existFilm.rating * existFilm.commentCount + userRating) / (existFilm.commentCount + 1);
+    const newRating = (
+      (existFilm.rating * existFilm.commentCount + userRating) /
+      (existFilm.commentCount + 1)
+    ).toFixed(1);
 
     await this.filmModel
       .findByIdAndUpdate(filmID, {
