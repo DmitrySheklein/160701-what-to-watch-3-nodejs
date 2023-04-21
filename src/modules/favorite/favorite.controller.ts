@@ -57,8 +57,7 @@ export default class FavoriteController extends Controller {
     });
   }
 
-  public async index(_req: Request, res: Response): Promise<void> {
-    const userId = '642b36edc14b6ec5a9da5b86';
+  public async index({ user: { id: userId } }: Request, res: Response): Promise<void> {
     const filmsId = (await this.favoriteService.findAll(userId)) || [];
     const films = [];
 
@@ -73,10 +72,12 @@ export default class FavoriteController extends Controller {
   }
 
   public async add(
-    { params }: Request<core.ParamsDictionary | ParamsFavorite, Record<string, unknown>, RequestQuery>,
+    {
+      params,
+      user: { id: userId },
+    }: Request<core.ParamsDictionary | ParamsFavorite, Record<string, unknown>, RequestQuery>,
     res: Response,
   ): Promise<void> {
-    const userId = '642b36edc14b6ec5a9da5b86';
     const { filmId } = params;
     const exist = await this.favoriteService.findByFilmId(filmId, userId);
     const film = await this.filmService.findById(filmId);
@@ -94,10 +95,12 @@ export default class FavoriteController extends Controller {
   }
 
   public async delete(
-    { params }: Request<core.ParamsDictionary | ParamsFavorite, Record<string, unknown>, RequestQuery>,
+    {
+      params,
+      user: { id: userId },
+    }: Request<core.ParamsDictionary | ParamsFavorite, Record<string, unknown>, RequestQuery>,
     res: Response,
   ): Promise<void> {
-    const userId = '642b1589f2a7670b6d002993';
     const { filmId } = params;
     const exist = await this.favoriteService.findByFilmId(filmId, userId);
     const film = await this.filmService.findById(filmId);
