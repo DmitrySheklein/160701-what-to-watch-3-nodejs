@@ -5,6 +5,7 @@
 @parentPath = users
 @contentType = application/json
 @userId = 642b1589f2a7670b6d002993
+@token = eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJpZCI6IjY0MmIzNmVkYzE0YjZlYzVhOWRhNWI4NiIsImlhdCI6MTY4MjA5MzA3MSwiZXhwIjoxNjgyMjY1ODcxfQ.HMPchOGxnNbDEePSVKLBTYDP6nN93JbQ-5CTxfmymng
 ## Регистрация пользователя
 
 POST {{host}}/{{parentPath}}/register HTTP/1.1
@@ -33,7 +34,7 @@ Content-Type: {{contentType}}
 
 ## Проверка токена пользователя
 GET {{host}}/{{parentPath}}/login HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJpZCI6IjY0MmIzNmVkYzE0YjZlYzVhOWRhNWI4NiIsImlhdCI6MTY4MTg0MzQwMCwiZXhwIjoxNjgyMDE2MjAwfQ.yXobVdn653PjcV0a7fULlKPusXLDk4IeVhPVWrW1tgo
+Authorization: Bearer {{token}}
 
 ###
 ###

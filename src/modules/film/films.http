@@ -7,6 +7,7 @@
 @filmDeleteId = 643040d4926ca3e9c11ebc88
 @contentType = application/json
 @userId = 642b1589f2a7670b6d002993
+@token = eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJpZCI6IjY0MmIzNmVkYzE0YjZlYzVhOWRhNWI4NiIsImlhdCI6MTY4MjA5MzA3MSwiZXhwIjoxNjgyMjY1ODcxfQ.HMPchOGxnNbDEePSVKLBTYDP6nN93JbQ-5CTxfmymng
 ## Получить список фильмов
 GET {{host}}/{{parentPath}} HTTP/1.1
 ###
@@ -17,6 +18,7 @@ GET {{host}}/{{parentPath}}?limit=1 HTTP/1.1
 
 ## Создать новый фильм
 POST {{host}}/{{parentPath}} HTTP/1.1
+Authorization: Bearer {{token}}
 Content-Type: {{contentType}}
 
 {
@@ -42,6 +44,7 @@ Content-Type: {{contentType}}
 
 ## Обновить фильм
 PATCH  {{host}}/{{parentPath}}/{{filmId}} HTTP/1.1
+Authorization: Bearer {{token}}
 Content-Type: {{contentType}}
 
 {
@@ -69,4 +72,5 @@ GET {{host}}/{{parentPath}}/{{filmId}} HTTP/1.1
 
 ## Удалить фильм по id
 DELETE  {{host}}/{{parentPath}}/{{filmDeleteId}} HTTP/1.1
+Authorization: Bearer {{token}}
 ###

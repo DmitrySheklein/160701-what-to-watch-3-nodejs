@@ -4,9 +4,9 @@
 @host = {{hostname}}:{{port}}
 @parentPath = comments
 @contentType = application/json
-@filmId = 642050e07a0ba612a72c199b
+@filmId = 6442b6e3c3c2400dcfb28e55
 @userId = 64203e5cc388ef9e7d53e35d
-@token = eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJpZCI6IjY0MmQyMDk3ZTUzNzYxMjlkN2M4ZmNjMCIsImlhdCI6MTY4MTk3Nzk3MCwiZXhwIjoxNjgyMTUwNzcwfQ.2KOjgOg6WvKXAB3iadf51zmMRtjhDgAXb_dscHylXTk
+@token = eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJpZCI6IjY0MmIzNmVkYzE0YjZlYzVhOWRhNWI4NiIsImlhdCI6MTY4MjA5MzA3MSwiZXhwIjoxNjgyMjY1ODcxfQ.HMPchOGxnNbDEePSVKLBTYDP6nN93JbQ-5CTxfmymng
 ## Создать комментарий
 POST {{host}}/{{parentPath}}/{{filmId}} HTTP/1.1
 Authorization: Bearer {{token}}
@@ -31,5 +31,4 @@ Authorization: Bearer {{token}}
 
 ## Получить список комментариев
 GET  {{host}}/{{parentPath}}/{{filmId}} HTTP/1.1
-Authorization: Bearer {{token}}
 ###

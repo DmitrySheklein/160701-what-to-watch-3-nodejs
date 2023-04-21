@@ -5,20 +5,24 @@
 @parentPath = favorite
 @contentType = application/json
 @filmId = 642b1589f2a7670b6d002995
-
+@token = eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJpZCI6IjY0MmIzNmVkYzE0YjZlYzVhOWRhNWI4NiIsImlhdCI6MTY4MjA5MzA3MSwiZXhwIjoxNjgyMjY1ODcxfQ.HMPchOGxnNbDEePSVKLBTYDP6nN93JbQ-5CTxfmymng
 ## Добавить в избранное
 POST {{host}}/{{parentPath}}/{{filmId}}/1 HTTP/1.1
+Authorization: Bearer {{token}}
 ###
 
 ## Убрать из избранного
 POST {{host}}/{{parentPath}}/{{filmId}}/0 HTTP/1.1
 Content-Type: {{contentType}}
+Authorization: Bearer {{token}}
 ###
 
 ## Невалидный параметр в избранном
 POST {{host}}/{{parentPath}}/{{filmId}}/svsbbs HTTP/1.1
+Authorization: Bearer {{token}}
 ###
 
 ## Получить список избранных фильмов
 GET {{host}}/{{parentPath}} HTTP/1.1
+Authorization: Bearer {{token}}
 ###
