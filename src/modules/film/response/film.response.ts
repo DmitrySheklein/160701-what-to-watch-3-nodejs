@@ -27,4 +27,7 @@ export default class FilmResponse {
   @Expose({ name: 'userId' })
   @Type(() => UserResponse)
   public user!: UserResponse;
+
+  @Expose()
+  public isFavorite!: boolean;
 }

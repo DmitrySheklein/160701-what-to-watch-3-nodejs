@@ -20,6 +20,7 @@ import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.mid
 import CommentService from '../comment/comment.service.js';
 import { DocumentExistsMiddleware } from '../../common/middlewares/document-exists.middleware.js';
 import { PrivateRouteMiddleware } from '../../common/middlewares/private-route.middleware.js';
+import FavoriteService from '../favorite/favorite.service.js';
 
 export type ParamsGetFilm = {
   filmId: string;
@@ -40,6 +41,7 @@ export default class FilmController extends Controller {
     @inject(Component.LoggerInterface) logger: LoggerInterface,
     @inject(Component.FilmServiceInterface) private readonly filmService: FilmService,
     @inject(Component.CommentServiceInterface) private readonly commentService: CommentService,
+    @inject(Component.FavoriteServiceInterface) private readonly favoriteService: FavoriteService,
   ) {
     super(logger);
     this.logger.info('Register router for FilmController');
@@ -90,12 +92,16 @@ export default class FilmController extends Controller {
   }
 
   public async index(
-    { query }: Request<core.ParamsDictionary, unknown, unknown, RequestQuery>,
+    { query, user }: Request<core.ParamsDictionary, unknown, unknown, RequestQuery>,
     res: Response,
   ): Promise<void> {
     const limit = query.limit; //TODO фикс с typeof string
-
-    const films = await this.filmService.find(limit);
+    const favoritesIds = await this.favoriteService.findAll(user?.id);
+    const defaultFilms = await this.filmService.find(limit);
+    const films = defaultFilms.map((film) => ({
+      ...film,
+      isFavorite: favoritesIds?.includes(film._id.toString()),
+    }));
 
     this.ok(res, fillDTO(FilmResponse, films));
   }
