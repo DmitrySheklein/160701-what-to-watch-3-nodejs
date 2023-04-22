@@ -31,7 +31,7 @@ export default class FilmService implements FilmServiceInterface {
   }
 
   public async find(count?: number): Promise<DocumentType<FilmEntity>[]> {
-    const limit = count ?? DEFAULT_FILM_COUNT;
+    const limit = Number(count ?? DEFAULT_FILM_COUNT);
 
     return this.filmModel
       .aggregate([

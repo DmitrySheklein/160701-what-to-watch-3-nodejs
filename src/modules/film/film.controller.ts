@@ -95,7 +95,7 @@ export default class FilmController extends Controller {
     { query, user }: Request<core.ParamsDictionary, unknown, unknown, RequestQuery>,
     res: Response,
   ): Promise<void> {
-    const limit = query.limit; //TODO фикс с typeof string
+    const limit = query.limit;
     const favoritesIds = await this.favoriteService.findAll(user?.id);
     const defaultFilms = await this.filmService.find(limit);
     const films = defaultFilms.map((film) => ({
