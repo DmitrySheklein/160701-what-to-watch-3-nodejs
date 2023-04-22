@@ -16,6 +16,7 @@ export type ConfigSchema = {
   JWT_SECRET: string;
   JWT_ALGORITM: string;
   JWT_EXPIRATION_TIME: string;
+  HOST: string;
 };
 
 export const configSchema = convict<ConfigSchema>({
@@ -90,5 +91,11 @@ export const configSchema = convict<ConfigSchema>({
     format: String,
     env: 'JWT_EXPIRATION_TIME',
     default: '2d',
+  },
+  HOST: {
+    doc: 'Host where started service',
+    format: String,
+    env: 'HOST',
+    default: 'localhost',
   },
 });

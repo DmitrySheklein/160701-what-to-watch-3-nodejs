@@ -12,6 +12,7 @@ import { UserServiceInterface } from '../modules/user/user-service.interface.js'
 import { ControllerInterface } from '../common/controller/controller.interface.js';
 import { ExceptionFilterInterface } from '../common/errors/exception-filter.interface.js';
 import { AuthtenticateMiddleware } from '../common/middlewares/authtenticate.middleware.js';
+import { getFullServerPath } from '../utils/common.js';
 
 @injectable()
 export default class Application {
@@ -71,6 +72,8 @@ export default class Application {
     this.initRoutes();
     this.initExeptionFilters();
     this.expressApp.listen(this.config.get('PORT'));
-    this.logger.info(`Server started on http://localhost:${this.config.get('PORT')}`);
+    this.logger.info(
+      `Server started on ${getFullServerPath(this.config.get('HOST'), this.config.get('PORT'))}`,
+    );
   }
 }
