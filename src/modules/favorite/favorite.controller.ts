@@ -13,6 +13,7 @@ import { RequestQuery } from '../../types/request-query.type.js';
 import { fillDTO } from '../../utils/common.js';
 import FilmResponse from '../film/response/film.response.js';
 import { PrivateRouteMiddleware } from '../../common/middlewares/private-route.middleware.js';
+import { ConfigInterface } from '../../common/config/config.interface.js';
 
 type ParamsFavorite = {
   filmId: string;
@@ -24,8 +25,9 @@ export default class FavoriteController extends Controller {
     @inject(Component.LoggerInterface) logger: LoggerServise,
     @inject(Component.FilmServiceInterface) private readonly filmService: FilmServiceInterface,
     @inject(Component.FavoriteServiceInterface) private readonly favoriteService: FavoriteServiceInterface,
+    @inject(Component.ConfigInterface) configService: ConfigInterface,
   ) {
-    super(logger);
+    super(logger, configService);
 
     this.logger.info('Register router for FavoriteController');
 

@@ -15,6 +15,7 @@ import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-ob
 import { DocumentExistsMiddleware } from '../../common/middlewares/document-exists.middleware.js';
 import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
 import { PrivateRouteMiddleware } from '../../common/middlewares/private-route.middleware.js';
+import { ConfigInterface } from '../../common/config/config.interface.js';
 
 @injectable()
 export default class CommentController extends Controller {
@@ -22,8 +23,9 @@ export default class CommentController extends Controller {
     @inject(Component.LoggerInterface) logger: LoggerServise,
     @inject(Component.CommentServiceInterface) private readonly commentService: CommentServiceInterface,
     @inject(Component.FilmServiceInterface) private readonly filmService: FilmServiceInterface,
+    @inject(Component.ConfigInterface) configService: ConfigInterface,
   ) {
-    super(logger);
+    super(logger, configService);
 
     this.logger.info('Register router for CommentController');
 

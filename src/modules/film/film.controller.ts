@@ -21,6 +21,7 @@ import CommentService from '../comment/comment.service.js';
 import { DocumentExistsMiddleware } from '../../common/middlewares/document-exists.middleware.js';
 import { PrivateRouteMiddleware } from '../../common/middlewares/private-route.middleware.js';
 import FavoriteService from '../favorite/favorite.service.js';
+import { ConfigInterface } from '../../common/config/config.interface.js';
 
 export type ParamsGetFilm = {
   filmId: string;
@@ -42,8 +43,9 @@ export default class FilmController extends Controller {
     @inject(Component.FilmServiceInterface) private readonly filmService: FilmService,
     @inject(Component.CommentServiceInterface) private readonly commentService: CommentService,
     @inject(Component.FavoriteServiceInterface) private readonly favoriteService: FavoriteService,
+    @inject(Component.ConfigInterface) configService: ConfigInterface,
   ) {
-    super(logger);
+    super(logger, configService);
     this.logger.info('Register router for FilmController');
 
     this.addRoute({ path: '/', method: HttpMethod.Get, handler: this.index });
