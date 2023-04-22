@@ -12,6 +12,7 @@ export type ConfigSchema = {
   DB_PORT: number;
   DB_NAME: string;
   UPLOAD_DIRECTORY: string;
+  STATIC_DIRECTORY_PATH: string;
   JWT_SECRET: string;
   JWT_ALGORITM: string;
   JWT_EXPIRATION_TIME: string;
@@ -65,6 +66,12 @@ export const configSchema = convict<ConfigSchema>({
     format: String,
     env: 'UPLOAD_DIRECTORY',
     default: null,
+  },
+  STATIC_DIRECTORY_PATH: {
+    doc: 'Path to directory with static resources',
+    format: String,
+    env: 'STATIC_DIRECTORY_PATH',
+    default: 'static',
   },
   JWT_SECRET: {
     doc: 'Secret for sign JWT',
