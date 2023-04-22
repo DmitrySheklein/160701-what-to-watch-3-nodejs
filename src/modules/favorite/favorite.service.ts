@@ -2,13 +2,9 @@ import { inject, injectable } from 'inversify';
 import { FavoriteServiceInterface } from './favorite-service.interface.js';
 import { Component } from '../../types/component.types.js';
 import { FavoriteEntity } from './favorite.entity.js';
-import { DocumentType, mongoose, types } from '@typegoose/typegoose';
+import { DocumentType, types } from '@typegoose/typegoose';
 import ChangeFavoriteDto from './dto/change-favorite.dto.js';
-import { SortType } from '../../types/sort-type.enum.js';
 import { LoggerInterface } from '../../common/logger/logger.interface.js';
-import { log } from 'console';
-
-const { Types } = mongoose;
 
 @injectable()
 export default class FavoriteService implements FavoriteServiceInterface {
