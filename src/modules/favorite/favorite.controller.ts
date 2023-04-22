@@ -89,9 +89,9 @@ export default class FavoriteController extends Controller {
       });
 
       this.created(res, fillDTO(FilmResponse, film));
+    } else {
+      this.ok(res, fillDTO(FilmResponse, film));
     }
-
-    this.ok(res, fillDTO(FilmResponse, film));
   }
 
   public async delete(
