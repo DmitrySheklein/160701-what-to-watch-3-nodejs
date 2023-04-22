@@ -3,6 +3,8 @@ import { Film, Genres } from '../types/film.type.js';
 import { plainToInstance } from 'class-transformer';
 import { ClassConstructor } from 'class-transformer/types/interfaces/class-constructor.type.js';
 import * as jose from 'jose';
+import { ValidationError } from 'class-validator';
+import { ValidationErrorField } from '../types/validation-error-field.type.js';
 
 export const createFilm = (row: string) => {
   const tokens = row.replace('\n', '').split('\t');
@@ -73,3 +75,10 @@ export const createJWT = async (
     .setIssuedAt()
     .setExpirationTime(jwtExpirtaionTime)
     .sign(crypto.createSecretKey(jwtSecret, 'utf-8'));
+
+export const transformErrors = (errors: ValidationError[]): ValidationErrorField[] =>
+  errors.map(({ property, value, constraints }) => ({
+    property,
+    value,
+    messages: constraints ? Object.values(constraints) : [],
+  }));
