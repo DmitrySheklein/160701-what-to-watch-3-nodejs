@@ -4,15 +4,14 @@
 @host = {{hostname}}:{{port}}
 @parentPath = users
 @contentType = application/json
-@token = eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJpZCI6IjY0MmIzNmVkYzE0YjZlYzVhOWRhNWI4NiIsImlhdCI6MTY4MjA5MzA3MSwiZXhwIjoxNjgyMjY1ODcxfQ.HMPchOGxnNbDEePSVKLBTYDP6nN93JbQ-5CTxfmymng
+@token = eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Imtla3NAb3Zlcmxvb2submV0IiwiaWQiOiI2NDQyYzY1YmZhZmMzNGIxZTJmYThiNDkiLCJpYXQiOjE2ODI0NDg4MTMsImV4cCI6MTY4MjYyMTYxM30.Xk5mqS_RX9Ukv9cI6cX4QnDznRYFswZTbFhPDGlrT-U
 ## Регистрация пользователя
 
 POST {{host}}/{{parentPath}}/register HTTP/1.1
 Content-Type: {{contentType}}
 
 {
-  "email": "keks@overlook.net",
-  "avatarPath": "torrance.png",
+  "email": "keks_new@overlook.net",
   "firstname": "keks",
   "lastname": "keksovich",
   "password": "shining"

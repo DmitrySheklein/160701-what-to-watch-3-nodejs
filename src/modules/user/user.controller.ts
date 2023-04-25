@@ -16,7 +16,9 @@ import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.mid
 import { UploadFileMiddleware } from '../../common/middlewares/upload-file.middleware.js';
 import LoggedUserResponse from './response/logged-user.response.js';
 import { PrivateRouteMiddleware } from '../../common/middlewares/private-route.middleware.js';
-
+import UpdateUserDto from './dto/update-user.dto.js';
+import UploadUserAvatarResponse from './response/upload-user-avatar.response.js';
+import * as core from 'express-serve-static-core';
 @injectable()
 export default class UserController extends Controller {
   constructor(
@@ -92,10 +94,19 @@ export default class UserController extends Controller {
     this.ok(res, { ...fillDTO(LoggedUserResponse, user), token });
   }
 
-  public async uploadAvatar(req: Request, res: Response) {
-    this.created(res, {
-      filePath: req.file?.path,
-    });
+  public async uploadAvatar(
+    req: Request<core.ParamsDictionary, Record<string, unknown>, UpdateUserDto>,
+    res: Response,
+  ) {
+    // this.created(res, {
+    //   filePath: req.file?.path,
+    // });
+    const {
+      user: { id: userId },
+    } = req;
+    const uploadFile = { avatarPath: req.file?.filename };
+    await this.userService.updateById(userId, uploadFile);
+    this.created(res, fillDTO(UploadUserAvatarResponse, uploadFile));
   }
 
   public async checkAuthenticate(req: Request, res: Response) {
