@@ -13,6 +13,7 @@ import { ControllerInterface } from '../common/controller/controller.interface.j
 import { ExceptionFilterInterface } from '../common/errors/exception-filter.interface.js';
 import { AuthtenticateMiddleware } from '../common/middlewares/authtenticate.middleware.js';
 import { getFullServerPath } from '../utils/common.js';
+import cors from 'cors';
 
 @injectable()
 export default class Application {
@@ -52,6 +53,7 @@ export default class Application {
 
     const authtenticateMiddleware = new AuthtenticateMiddleware(this.config.get('JWT_SECRET'));
     this.expressApp.use(authtenticateMiddleware.execute.bind(authtenticateMiddleware));
+    this.expressApp.use(cors());
   }
 
   public async init() {
