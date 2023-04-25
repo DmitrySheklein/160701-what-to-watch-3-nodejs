@@ -30,9 +30,6 @@ export default class CreateFilmDto {
   @IsInt({ message: 'released must be an integer' })
   public released!: number;
 
-  @MaxLength(256, { message: 'Too short for field posterImage' })
-  public posterImage!: string;
-
   @MaxLength(256, { message: 'Too short for field backgroundImage' })
   public backgroundImage!: string;
 

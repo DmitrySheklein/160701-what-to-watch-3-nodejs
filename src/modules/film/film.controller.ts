@@ -22,6 +22,8 @@ import { DocumentExistsMiddleware } from '../../common/middlewares/document-exis
 import { PrivateRouteMiddleware } from '../../common/middlewares/private-route.middleware.js';
 import FavoriteService from '../favorite/favorite.service.js';
 import { ConfigInterface } from '../../common/config/config.interface.js';
+import UploadImageResponse from './response/upload-image.response.js';
+import { UploadFileMiddleware } from '../../common/middlewares/upload-file.middleware.js';
 
 export type ParamsGetFilm = {
   filmId: string;
@@ -91,6 +93,16 @@ export default class FilmController extends Controller {
         new DocumentExistsMiddleware(this.filmService, 'Film', 'filmId'),
       ],
     });
+    this.addRoute({
+      path: `/:${FilmControllerRoute.FilmId}/image`,
+      method: HttpMethod.Post,
+      handler: this.uploadImage,
+      middlewares: [
+        new PrivateRouteMiddleware(),
+        new ValidateObjectIdMiddleware(FilmControllerRoute.FilmId),
+        new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'posterImage'),
+      ],
+    });
   }
 
   public async index(
@@ -137,6 +149,18 @@ export default class FilmController extends Controller {
     const film = await this.filmService.updateById(filmId, body);
 
     this.ok(res, fillDTO(FilmResponse, film));
+  }
+
+  public async uploadImage(
+    req: Request<core.ParamsDictionary | ParamsGetFilm, Record<string, unknown>, UpdateFilmDto>,
+    res: Response,
+  ) {
+    const { filmId } = req.params;
+    const updateDto = { posterImage: req.file?.filename };
+
+    // await this.filmService.updateById(filmId, updateDto);
+
+    this.created(res, fillDTO(UploadImageResponse, updateDto));
   }
 
   public async promo(_: Request, res: Response): Promise<void> {

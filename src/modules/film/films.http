@@ -7,7 +7,7 @@
 @filmDeleteId = 643040d4926ca3e9c11ebc88
 @contentType = application/json
 @userId = 6442c65bfafc34b1e2fa8b49
-@token = eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Imtla3NAb3Zlcmxvb2submV0IiwiaWQiOiI2NDQyYzY1YmZhZmMzNGIxZTJmYThiNDkiLCJpYXQiOjE2ODIwOTc4MjksImV4cCI6MTY4MjI3MDYyOX0.s3kQd1OAxFMbuOgrZV3Tji4XlO9hByW_DjrwzEys4kk
+@token = eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Imtla3NAb3Zlcmxvb2submV0IiwiaWQiOiI2NDQyYzY1YmZhZmMzNGIxZTJmYThiNDkiLCJpYXQiOjE2ODI0NDM4ODksImV4cCI6MTY4MjYxNjY4OX0.mj0noms9c6JHAMcLXLezxgj_Yilsfy5Uz5yuyxAiVkk
 
 ## Получить список фильмов
 GET {{host}}/{{parentPath}} HTTP/1.1
@@ -45,6 +45,24 @@ Content-Type: {{contentType}}
   "backgroundColor": "#B9B27E",
   "rating": 0
 }
+###
+###
+
+## Загрузка изображения для картинки
+@fileName = test
+@fileExt = jpg
+POST {{host}}/{{parentPath}}/{{filmId}}/image HTTP/1.1
+Authorization: Bearer {{token}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="posterImage"; filename="{{fileName}}.{{fileExt}}"
+# Content-Type: image/{{fileExt}}
+Content-Type: image/jpeg
+
+< /Users/dmitrij/Documents/{{fileName}}.{{fileExt}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
 ###
 
 ## Обновить фильм

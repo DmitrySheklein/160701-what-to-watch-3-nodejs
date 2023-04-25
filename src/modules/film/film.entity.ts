@@ -30,7 +30,7 @@ export class FilmEntity extends defaultClasses.TimeStamps {
   @prop({ required: true, type: Number })
   public released!: number;
 
-  @prop({ required: true })
+  @prop({ default: '' })
   public posterImage!: string;
 
   @prop({ required: true })
