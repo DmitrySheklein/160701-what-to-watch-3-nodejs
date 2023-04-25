@@ -89,7 +89,7 @@ export default class UserController extends Controller {
       this.configService.get('JWT_EXPIRATION_TIME'),
     );
 
-    this.ok(res, fillDTO(LoggedUserResponse, { email, token }));
+    this.ok(res, { ...fillDTO(LoggedUserResponse, user), token });
   }
 
   public async uploadAvatar(req: Request, res: Response) {
@@ -98,7 +98,13 @@ export default class UserController extends Controller {
     });
   }
 
-  public async checkAuthenticate({ user: { email } }: Request, res: Response) {
+  public async checkAuthenticate(req: Request, res: Response) {
+    if (!req.user) {
+      throw new HttpError(StatusCodes.UNAUTHORIZED, 'Unauthorized', 'UserController');
+    }
+    const {
+      user: { email },
+    } = req;
     const user = await this.userService.findByEmail(email);
 
     this.ok(res, fillDTO(LoggedUserResponse, user));
