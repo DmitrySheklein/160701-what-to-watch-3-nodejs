@@ -1,6 +1,7 @@
 .vscode/
 /node_modules/
 node_modules/
+/frontend/node_modules/
 /build/
 /mock
 /lib/
