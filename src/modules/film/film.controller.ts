@@ -158,7 +158,7 @@ export default class FilmController extends Controller {
     const { filmId } = req.params;
     const updateDto = { posterImage: req.file?.filename };
 
-    // await this.filmService.updateById(filmId, updateDto);
+    await this.filmService.updateById(filmId, updateDto);
 
     this.created(res, fillDTO(UploadImageResponse, updateDto));
   }
