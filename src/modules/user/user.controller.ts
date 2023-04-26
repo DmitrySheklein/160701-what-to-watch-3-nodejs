@@ -98,9 +98,6 @@ export default class UserController extends Controller {
     req: Request<core.ParamsDictionary, Record<string, unknown>, UpdateUserDto>,
     res: Response,
   ) {
-    // this.created(res, {
-    //   filePath: req.file?.path,
-    // });
     const {
       user: { id: userId },
     } = req;

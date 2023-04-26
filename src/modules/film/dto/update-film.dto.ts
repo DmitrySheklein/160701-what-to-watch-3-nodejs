@@ -17,62 +17,62 @@ export default class UpdateFilmDto {
   @IsOptional()
   @MinLength(2, { message: 'Minimum name length must be 2' })
   @MaxLength(100, { message: 'Maximum name length must be 100' })
-  public name!: string;
+  public name?: string;
 
   @IsOptional()
   @MinLength(20, { message: 'Minimum description length must be 20' })
   @MaxLength(1024, { message: 'Maximum description length must be 1024' })
-  public description!: string;
+  public description?: string;
 
   @IsOptional()
   @IsDateString({}, { message: 'created must be valid ISO date' })
-  public created!: Date;
+  public created?: Date;
 
   @IsOptional()
   @IsEnum(Genres, { message: `type must be key of Genres: ${Genres.toString()}` })
-  public genre!: Genres;
+  public genre?: Genres;
 
   @IsOptional()
   @IsInt({ message: 'released must be an integer' })
-  public released!: number;
+  public released?: number;
 
   @IsOptional()
   @MaxLength(256, { message: 'Too short for field posterImage' })
-  public posterImage!: string;
+  public posterImage?: string;
 
   @IsOptional()
   @MaxLength(256, { message: 'Too short for field backgroundImage' })
-  public backgroundImage!: string;
+  public backgroundImage?: string;
 
   @IsOptional()
   @IsHexColor()
-  public backgroundColor!: string;
+  public backgroundColor?: string;
 
   @IsOptional()
   @MaxLength(256, { message: 'Too short for field videoLink' })
-  public videoLink!: string;
+  public videoLink?: string;
 
   @IsOptional()
   @MaxLength(256, { message: 'Too short for field previewVideoLink' })
-  public previewVideoLink!: string;
+  public previewVideoLink?: string;
 
   @IsOptional()
   @Min(0, { message: 'Minimum rating must be 1' })
   @Max(10, { message: 'Maximum rating must be 10' })
   @IsInt({ message: 'rating must be an integer' })
-  public rating!: number;
+  public rating?: number;
 
   @IsOptional()
   @MinLength(2, { message: 'Minimum director length must be 2' })
   @MaxLength(50, { message: 'Maximum director length must be 50' })
-  public director!: string;
+  public director?: string;
 
   @IsOptional()
   @IsArray({ message: 'Field starring must be an array' })
   @IsString({ each: true, message: 'starring field must be an array of valid id' })
-  public starring!: string[];
+  public starring?: string[];
 
   @IsOptional()
   @IsInt({ message: 'runTime must be an integer' })
-  public runTime!: number;
+  public runTime?: number;
 }
