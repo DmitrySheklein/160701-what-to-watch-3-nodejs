@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 import { getToken } from './token';
 
-const BACKEND_URL = 'http://localhost:5000';
+const BACKEND_URL = 'http://localhost:3008';
 const REQUEST_TIMEOUT = 5000;
 
 export const createAPI = () => {
