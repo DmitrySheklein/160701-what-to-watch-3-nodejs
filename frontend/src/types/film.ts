@@ -1,13 +1,21 @@
 import { User } from './user';
 
-export type Film = {
+export interface Film {
   id: string;
   name: string;
   posterImage: string;
+  created: Date;
+  previewVideoLink: string;
+  genre: string;
+  commentCount: number;
+  isFavorite: boolean;
+  user: User;
+}
+
+export interface FullFilm extends Film {
   backgroundImage: string;
   backgroundColor: string;
   videoLink: string;
-  previewVideoLink: string;
   description: string;
   rating: number;
   director: string;
@@ -15,6 +23,4 @@ export type Film = {
   runTime: number;
   genre: string;
   released: number;
-  isFavorite: boolean;
-  user: User;
-};
+}

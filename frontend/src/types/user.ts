@@ -5,6 +5,7 @@ export type User = {
   email: string;
   name: string;
 };
+
 export type LoggedUser = {
   avatarUrl: string;
   email: string;

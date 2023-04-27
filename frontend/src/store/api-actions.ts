@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
-import { Film } from '../types/film';
+import { Film, FullFilm } from '../types/film';
 import { Review } from '../types/review';
 import { NewReview } from '../types/new-review';
 import { AuthData } from '../types/auth-data';
@@ -10,12 +10,20 @@ import { APIRoute, DEFAULT_GENRE, NameSpace } from '../const';
 import { User } from '../types/user';
 import { NewUser } from '../types/new-user';
 import { dropToken, saveToken } from '../services/token';
-import { adaptUserToClient } from '../utils/adapters/adaptersToClient';
+import {
+  adaptCommentsToClient,
+  adaptFilmToClient,
+  adaptFilmsToClient,
+  adaptUserToClient,
+} from '../utils/adapters/adaptersToClient';
 import UserDto from '../dto/user/user.dto';
 import CreateUserWithIdDto from '../dto/user/create-user-with-id.dto';
 import { adaptAvatarToServer, adaptSignupToServer } from '../utils/adapters/adaptersToServer';
 import StatusCodes from 'http-status-codes';
 import UserWithTokenDto from '../dto/user/user-with-token.dto.js';
+import FilmDto from '../dto/film/film.dto';
+import FilmFullDto from '../dto/film/film-full.dto';
+import CommentDto from '../dto/comment/comment.dto';
 
 type Extra = {
   api: AxiosInstance;
@@ -23,15 +31,14 @@ type Extra = {
 
 export const fetchFilms = createAsyncThunk<Film[], undefined, { extra: Extra }>(
   `${NameSpace.Films}/fetchFilms`,
-  async (_arg, { extra }) => {
-    const { api } = extra;
-    const { data } = await api.get<Film[]>(APIRoute.Films);
+  async (_arg, { extra: { api } }) => {
+    const { data } = await api.get<FilmDto[]>(APIRoute.Films);
 
-    return data;
+    return adaptFilmsToClient(data);
   },
 );
 
-export const fetchFilmsByGenre = createAsyncThunk<Film[], string, { extra: Extra }>(
+export const fetchFilmsByGenre = createAsyncThunk<Film[], undefined, { extra: Extra }>(
   `${NameSpace.Genre}/fetchFilmsByGenre`,
   async (genre, { extra }) => {
     const { api } = extra;
@@ -39,19 +46,19 @@ export const fetchFilmsByGenre = createAsyncThunk<Film[], string, { extra: Extra
     if (genre === DEFAULT_GENRE) {
       route = APIRoute.Films;
     }
-    const { data } = await api.get<Film[]>(route);
+    const { data } = await api.get<FilmDto[]>(route);
 
-    return data;
+    return adaptFilmsToClient(data);
   },
 );
 
-export const fetchFilm = createAsyncThunk<Film, string, { extra: Extra }>(
+export const fetchFilm = createAsyncThunk<FullFilm, undefined, { extra: Extra }>(
   `${NameSpace.Film}/fetchFilm`,
   async (id, { extra }) => {
     const { api } = extra;
-    const { data } = await api.get<Film>(`${APIRoute.Films}/${id}`);
+    const { data } = await api.get<FilmFullDto>(`${APIRoute.Films}/${id}`);
 
-    return data;
+    return adaptFilmToClient(data);
   },
 );
 
@@ -69,9 +76,9 @@ export const addFilm = createAsyncThunk<Film, NewFilm, { extra: Extra }>(
   `${NameSpace.Film}/addFilm`,
   async (filmData, { extra }) => {
     const { api } = extra;
-    const { data } = await api.post<Film>(APIRoute.Films, filmData);
+    const { data } = await api.post<FilmFullDto>(APIRoute.Films, filmData);
 
-    return data;
+    return adaptFilmToClient(data);
   },
 );
 
@@ -89,9 +96,9 @@ export const fetchReviews = createAsyncThunk<Review[], string, { extra: Extra }>
   `${NameSpace.Reviews}/fetchReviews`,
   async (id, { extra }) => {
     const { api } = extra;
-    const { data } = await api.get<Review[]>(`${APIRoute.Comments}/${id}`);
+    const { data } = await api.get<CommentDto[]>(`${APIRoute.Comments}/${id}`);
 
-    return data;
+    return adaptCommentsToClient(data);
   },
 );
 
@@ -119,7 +126,7 @@ export const checkAuth = createAsyncThunk<User, undefined, { extra: Extra }>(
   },
 );
 
-export const login = createAsyncThunk<User, AuthData, { extra: Extra }>(
+export const login = createAsyncThunk<any, AuthData, { extra: Extra }>(
   `${NameSpace.User}/login`,
   async (authData, { extra }) => {
     const { api } = extra;
@@ -167,27 +174,27 @@ export const fetchFavoriteFilms = createAsyncThunk<Film[], undefined, { extra: E
   `${NameSpace.FavoriteFilms}/fetchFavoriteFilms`,
   async (_arg, { extra }) => {
     const { api } = extra;
-    const { data } = await api.get<Film[]>(APIRoute.Favorite);
+    const { data } = await api.get<FilmDto[]>(APIRoute.Favorite);
 
-    return data;
+    return adaptFilmsToClient(data);
   },
 );
 
-export const fetchPromo = createAsyncThunk<Film, undefined, { extra: Extra }>(
+export const fetchPromo = createAsyncThunk<FullFilm, undefined, { extra: Extra }>(
   `${NameSpace.Promo}/fetchPromo`,
   async (_arg, { extra }) => {
     const { api } = extra;
-    const { data } = await api.get<Film>(APIRoute.Promo);
+    const { data } = await api.get<FilmFullDto>(APIRoute.Promo);
 
-    return data;
+    return adaptFilmToClient(data);
   },
 );
 
 export const setFavorite = createAsyncThunk<Film, Film['id'], { extra: Extra }>(
   `${NameSpace.FavoriteFilms}/setFavorite`,
-  async (id, { extra }) => {
+  async (filmId, { extra }) => {
     const { api } = extra;
-    const { data } = await api.post<Film>(`${APIRoute.Favorite}/${id}`);
+    const { data } = await api.post<Film>(`${APIRoute.Favorite}/${filmId}/1`);
 
     return data;
   },
@@ -195,9 +202,9 @@ export const setFavorite = createAsyncThunk<Film, Film['id'], { extra: Extra }>(
 
 export const unsetFavorite = createAsyncThunk<Film, Film['id'], { extra: Extra }>(
   `${NameSpace.FavoriteFilms}/unsetFavorite`,
-  async (id, { extra }) => {
+  async (filmId, { extra }) => {
     const { api } = extra;
-    const { data } = await api.delete<Film>(`${APIRoute.Favorite}/${id}`);
+    const { data } = await api.delete<Film>(`${APIRoute.Favorite}/${filmId}/0`);
 
     return data;
   },

@@ -1,29 +1,22 @@
+import UserDto from '../user/user.dto.js';
 import { Genres } from './create-film.dto.js';
 
-export default class CreateFilmDto {
+export default class FilmDto {
+  public id!: string;
+
   public name!: string;
 
-  public description!: string;
+  public posterImage!: string;
+
+  public previewVideoLink!: string;
 
   public created!: Date;
 
   public genre!: Genres;
 
-  public released!: number;
+  public commentCount!: number;
 
-  public backgroundImage!: string;
+  public isFavorite!: boolean;
 
-  public backgroundColor!: string;
-
-  public videoLink!: string;
-
-  public previewVideoLink!: string;
-
-  public rating!: number;
-
-  public director!: string;
-
-  public starring!: string[];
-
-  public runTime!: number;
+  public user!: UserDto;
 }
