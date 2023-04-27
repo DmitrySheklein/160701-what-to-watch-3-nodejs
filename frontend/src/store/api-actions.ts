@@ -10,6 +10,12 @@ import { APIRoute, DEFAULT_GENRE, NameSpace } from '../const';
 import { User } from '../types/user';
 import { NewUser } from '../types/new-user';
 import { dropToken, saveToken } from '../services/token';
+import { adaptUserToClient } from '../utils/adapters/adaptersToClient';
+import UserDto from '../dto/user/user.dto';
+import CreateUserWithIdDto from '../dto/user/create-user-with-id.dto';
+import { adaptAvatarToServer, adaptSignupToServer } from '../utils/adapters/adaptersToServer';
+import StatusCodes from 'http-status-codes';
+import UserWithTokenDto from '../dto/user/user-with-token.dto.js';
 
 type Extra = {
   api: AxiosInstance;
@@ -104,8 +110,8 @@ export const checkAuth = createAsyncThunk<User, undefined, { extra: Extra }>(
   async (_arg, { extra }) => {
     const { api } = extra;
     try {
-      const { data } = await api.get<User>(APIRoute.Login);
-      return data;
+      const { data } = await api.get<UserDto>(APIRoute.Login);
+      return adaptUserToClient(data);
     } catch (error) {
       dropToken();
       return Promise.reject(error);
@@ -113,16 +119,38 @@ export const checkAuth = createAsyncThunk<User, undefined, { extra: Extra }>(
   },
 );
 
-export const login = createAsyncThunk<User, AuthData, { extra: Extra }>(
+export const login = createAsyncThunk<AuthData, AuthData, { extra: Extra }>(
   `${NameSpace.User}/login`,
   async (authData, { extra }) => {
     const { api } = extra;
 
-    const { data } = await api.post<User & { token: Token }>(APIRoute.Login, authData);
+    const { data } = await api.post<UserWithTokenDto>(APIRoute.Login, authData);
     const { token } = data;
-    saveToken(token);
+
+    if (token) {
+      saveToken(token);
+    }
 
     return data;
+  },
+);
+
+export const registerUser = createAsyncThunk<void, NewUser, { extra: Extra }>(
+  `${NameSpace.User}/register`,
+  async (userData, { extra }) => {
+    const { api } = extra;
+    const postData = await api.post<CreateUserWithIdDto>(
+      APIRoute.Register,
+      adaptSignupToServer({
+        ...userData,
+      }),
+    );
+
+    if (postData.status === StatusCodes.CREATED) {
+      await api.post(`${APIRoute.Avatar}`, adaptAvatarToServer(userData.avatar), {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+    }
   },
 );
 
@@ -172,24 +200,5 @@ export const unsetFavorite = createAsyncThunk<Film, Film['id'], { extra: Extra }
     const { data } = await api.delete<Film>(`${APIRoute.Favorite}/${id}`);
 
     return data;
-  },
-);
-
-export const registerUser = createAsyncThunk<void, NewUser, { extra: Extra }>(
-  `${NameSpace.User}/register`,
-  async ({ email, password, name, avatar }, { extra }) => {
-    const { api } = extra;
-    const { data } = await api.post<{ id: string }>(APIRoute.Register, {
-      email,
-      password,
-      name,
-    });
-    if (avatar) {
-      const payload = new FormData();
-      payload.append('avatar', avatar);
-      await api.post(`users/${data.id}${APIRoute.Avatar}`, payload, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-    }
   },
 );
