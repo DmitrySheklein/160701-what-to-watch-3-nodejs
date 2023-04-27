@@ -49,7 +49,7 @@ export default class FavoriteController extends Controller {
     });
     this.addRoute({
       path: '/:filmId/0',
-      method: HttpMethod.Post,
+      method: HttpMethod.Delete,
       handler: this.delete,
       middlewares: [
         new PrivateRouteMiddleware(),

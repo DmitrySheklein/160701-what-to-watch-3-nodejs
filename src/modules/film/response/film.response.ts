@@ -22,7 +22,7 @@ export default class FilmResponse {
   public genre!: Genres;
 
   @Expose()
-  public commentCount!: Genres;
+  public commentCount!: number;
 
   @Expose({ name: 'userId' })
   @Type(() => UserResponse)
