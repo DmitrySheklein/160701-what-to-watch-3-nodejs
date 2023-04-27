@@ -119,7 +119,7 @@ export const checkAuth = createAsyncThunk<User, undefined, { extra: Extra }>(
   },
 );
 
-export const login = createAsyncThunk<AuthData, AuthData, { extra: Extra }>(
+export const login = createAsyncThunk<User, AuthData, { extra: Extra }>(
   `${NameSpace.User}/login`,
   async (authData, { extra }) => {
     const { api } = extra;
@@ -157,8 +157,8 @@ export const registerUser = createAsyncThunk<void, NewUser, { extra: Extra }>(
 export const logout = createAsyncThunk<void, undefined, { extra: Extra }>(
   `${NameSpace.User}/logout`,
   async (_arg, { extra }) => {
-    const { api } = extra;
-    await api.delete(APIRoute.Logout);
+    // const { api } = extra;
+    // await api.delete(APIRoute.Logout);
     dropToken();
   },
 );
