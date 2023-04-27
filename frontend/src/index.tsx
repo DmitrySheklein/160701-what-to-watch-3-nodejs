@@ -10,9 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 store.dispatch(fetchFilms());
 store.dispatch(checkAuth());
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
 root.render(
   <Provider store={store}>
@@ -20,5 +18,5 @@ root.render(
       <ToastContainer />
       <App />
     </BrowserRouter>
-  </Provider>
+  </Provider>,
 );
