@@ -31,7 +31,7 @@ export default class FilmService implements FilmServiceInterface {
   }
 
   public async find(count?: number): Promise<DocumentType<FilmEntity>[]> {
-    const limit = count ?? DEFAULT_FILM_COUNT;
+    const limit = Number(count ?? DEFAULT_FILM_COUNT);
 
     return this.filmModel
       .aggregate([
@@ -75,11 +75,7 @@ export default class FilmService implements FilmServiceInterface {
   ): Promise<DocumentType<FilmEntity>[]> {
     const limit = count ?? DEFAULT_FILM_COUNT;
 
-    return this.filmModel
-      .find({ genre: genre }, {}, { limit })
-      .sort(DEFAULT_FILM_SORT)
-      .populate(['userId'])
-      .exec();
+    return this.filmModel.find({ genre }, {}, { limit }).sort(DEFAULT_FILM_SORT).populate(['userId']).exec();
   }
 
   public async incCommentCount(filmID: string, userRating: number): Promise<void> {
