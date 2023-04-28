@@ -1,17 +1,17 @@
 import { store } from '../store/index';
-import { Film } from './film.js';
+import { Film, SmallFilm } from './film.js';
 import { Review } from './review.js';
 import { User } from './user.js';
 import { AuthorizationStatus, SubmitStatus } from '../const';
 
 export type FilmsState = {
-  films: Film[];
+  films: SmallFilm[];
   isLoading: boolean;
 };
 
 export type GenreState = {
   activeGenre: string;
-  filmsByGenre: Film[];
+  filmsByGenre: SmallFilm[];
   isLoading: boolean;
 };
 
@@ -21,7 +21,7 @@ export type FilmState = {
 };
 
 export type FavoriteFilmsState = {
-  favoriteFilms: Film[];
+  favoriteFilms: SmallFilm[];
   isLoading: boolean;
 };
 

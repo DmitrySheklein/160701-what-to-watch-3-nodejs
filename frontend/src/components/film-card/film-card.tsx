@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
-import { Film } from '../../types/film';
+import { Film, SmallFilm } from '../../types/film';
 
 type FilmCardProps = {
-  film: Film;
+  film: SmallFilm;
   withVideo: boolean;
 };
 
@@ -43,10 +43,7 @@ function FilmCard({ film, withVideo }: FilmCardProps) {
             </div>
           </Link>
           <h3 className="small-film-card__title">
-            <Link
-              className="small-film-card__link"
-              to={`${AppRoute.Film}/${id}`}
-            >
+            <Link className="small-film-card__link" to={`${AppRoute.Film}/${id}`}>
               {name}
             </Link>
           </h3>

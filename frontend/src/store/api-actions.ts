@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
-import { Film, FullFilm } from '../types/film';
+import { Film, SmallFilm } from '../types/film';
 import { Review } from '../types/review';
 import { NewReview } from '../types/new-review';
 import { AuthData } from '../types/auth-data';
@@ -29,7 +29,7 @@ type Extra = {
   api: AxiosInstance;
 };
 
-export const fetchFilms = createAsyncThunk<Film[], undefined, { extra: Extra }>(
+export const fetchFilms = createAsyncThunk<SmallFilm[], undefined, { extra: Extra }>(
   `${NameSpace.Films}/fetchFilms`,
   async (_arg, { extra: { api } }) => {
     const { data } = await api.get<FilmDto[]>(APIRoute.Films);
@@ -38,7 +38,7 @@ export const fetchFilms = createAsyncThunk<Film[], undefined, { extra: Extra }>(
   },
 );
 
-export const fetchFilmsByGenre = createAsyncThunk<Film[], undefined, { extra: Extra }>(
+export const fetchFilmsByGenre = createAsyncThunk<SmallFilm[], string, { extra: Extra }>(
   `${NameSpace.Genre}/fetchFilmsByGenre`,
   async (genre, { extra }) => {
     const { api } = extra;
@@ -52,7 +52,7 @@ export const fetchFilmsByGenre = createAsyncThunk<Film[], undefined, { extra: Ex
   },
 );
 
-export const fetchFilm = createAsyncThunk<FullFilm, undefined, { extra: Extra }>(
+export const fetchFilm = createAsyncThunk<Film, string, { extra: Extra }>(
   `${NameSpace.Film}/fetchFilm`,
   async (id, { extra }) => {
     const { api } = extra;
@@ -170,7 +170,7 @@ export const logout = createAsyncThunk<void, undefined, { extra: Extra }>(
   },
 );
 
-export const fetchFavoriteFilms = createAsyncThunk<Film[], undefined, { extra: Extra }>(
+export const fetchFavoriteFilms = createAsyncThunk<SmallFilm[], undefined, { extra: Extra }>(
   `${NameSpace.FavoriteFilms}/fetchFavoriteFilms`,
   async (_arg, { extra }) => {
     const { api } = extra;
@@ -180,7 +180,7 @@ export const fetchFavoriteFilms = createAsyncThunk<Film[], undefined, { extra: E
   },
 );
 
-export const fetchPromo = createAsyncThunk<FullFilm, undefined, { extra: Extra }>(
+export const fetchPromo = createAsyncThunk<Film, undefined, { extra: Extra }>(
   `${NameSpace.Promo}/fetchPromo`,
   async (_arg, { extra }) => {
     const { api } = extra;

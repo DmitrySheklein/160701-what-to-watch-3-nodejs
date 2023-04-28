@@ -1,8 +1,8 @@
 import FilmCard from '../../components/film-card/film-card';
-import { Film } from '../../types/film';
+import { Film, SmallFilm } from '../../types/film';
 
 type FilmsListProps = {
-  films: Film[];
+  films: SmallFilm[];
   withVideo: boolean;
 };
 

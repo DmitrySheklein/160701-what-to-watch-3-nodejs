@@ -3,7 +3,7 @@ import FilmFullDto from '../../dto/film/film-full.dto.js';
 import FilmDto from '../../dto/film/film.dto.js';
 import UserWithTokenDto from '../../dto/user/user-with-token.dto.js';
 import UserDto from '../../dto/user/user.dto.js';
-import { Film, FullFilm } from '../../types/film.js';
+import { Film, SmallFilm } from '../../types/film.js';
 import { Review } from '../../types/review.js';
 import { LoggedUser, User } from '../../types/user.js';
 
@@ -19,14 +19,15 @@ export const adaptLoginToClient = (user: UserWithTokenDto): LoggedUser => ({
   avatarUrl: user.avatarPath,
 });
 
-export const adaptFilmsToClient = (films: FilmDto[]): Film[] =>
+export const adaptFilmsToClient = (films: FilmDto[]): SmallFilm[] =>
   films
     .filter((film: FilmDto) => film.user !== null)
     .map((film: FilmDto) => ({
       ...film,
       user: adaptUserToClient(film.user),
     }));
-export const adaptFilmToClient = (film: FilmFullDto): FullFilm => ({
+
+export const adaptFilmToClient = (film: FilmFullDto): Film => ({
   ...film,
   user: adaptUserToClient(film.user),
 });

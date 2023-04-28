@@ -1,6 +1,6 @@
 import { User } from './user';
 
-export interface Film {
+export interface SmallFilm {
   id: string;
   name: string;
   posterImage: string;
@@ -12,7 +12,7 @@ export interface Film {
   user: User;
 }
 
-export interface FullFilm extends Film {
+export interface Film extends SmallFilm {
   backgroundImage: string;
   backgroundColor: string;
   videoLink: string;
