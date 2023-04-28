@@ -67,9 +67,16 @@ export default class UserController extends Controller {
       throw new HttpError(StatusCodes.CONFLICT, `User with email «${body.email}» exists.`, 'UserController');
     }
 
-    const result = await this.userService.create(body, this.configService.get('SALT'));
+    const user = await this.userService.create(body, this.configService.get('SALT'));
+    const { email, id } = user;
 
-    this.send(res, StatusCodes.CREATED, fillDTO(UserResponse, result));
+    const token = await createJWT(
+      this.configService.get('JWT_ALGORITM'),
+      this.configService.get('JWT_SECRET'),
+      { email, id },
+      this.configService.get('JWT_EXPIRATION_TIME'),
+    );
+    this.send(res, StatusCodes.CREATED, { ...fillDTO(UserResponse, user), token });
   }
 
   public async login(

@@ -152,10 +152,13 @@ export const registerUser = createAsyncThunk<void, NewUser, { extra: Extra }>(
         ...userData,
       }),
     );
+    const {
+      data: { token },
+    } = postData;
 
     if (postData.status === StatusCodes.CREATED) {
       await api.post(`${APIRoute.Avatar}`, adaptAvatarToServer(userData.avatar), {
-        headers: { 'Content-Type': 'multipart/form-data' },
+        headers: { 'Content-Type': 'multipart/form-data', 'Authorization': `Bearer ${token}` },
       });
     }
   },

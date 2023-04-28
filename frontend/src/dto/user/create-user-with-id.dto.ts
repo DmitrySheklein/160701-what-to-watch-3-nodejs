@@ -6,4 +6,6 @@ export default class CreateUserWithIdDto {
   public firstname!: string;
 
   public password!: string;
+
+  public token!: string;
 }

@@ -12,7 +12,7 @@ export const adaptAvatarToServer = (file: File | undefined) => {
   const formData = new FormData();
 
   if (file) {
-    formData.append('avatarPath', file);
+    formData.set('avatar', file);
   }
 
   return formData;
