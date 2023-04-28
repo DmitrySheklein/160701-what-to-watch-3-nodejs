@@ -112,10 +112,15 @@ export default class FilmController extends Controller {
     const limit = query.limit; //TODO фикс с typeof string
     const favoritesIds = await this.favoriteService.findAll(user?.id);
     const defaultFilms = await this.filmService.find(limit);
-    const films = defaultFilms.map((film) => ({
-      ...film,
-      isFavorite: favoritesIds?.includes(film._id.toString()),
-    }));
+    const films = defaultFilms.map((film) => {
+      const filmId = film._id.toString();
+
+      return {
+        ...film,
+        _id: filmId,
+        isFavorite: favoritesIds?.includes(filmId),
+      };
+    });
 
     this.ok(res, fillDTO(FilmResponse, films));
   }
