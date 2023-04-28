@@ -4,19 +4,19 @@ import { Film, SmallFilm } from '../types/film';
 import { Review } from '../types/review';
 import { NewReview } from '../types/new-review';
 import { AuthData } from '../types/auth-data';
-import { Token } from '../types/token';
 import { NewFilm } from '../types/new-film';
 import { APIRoute, DEFAULT_GENRE, NameSpace } from '../const';
-import { User } from '../types/user';
+import { LoggedUser, User } from '../types/user';
 import { NewUser } from '../types/new-user';
 import { dropToken, saveToken } from '../services/token';
 import {
   adaptCommentsToClient,
   adaptFilmToClient,
   adaptFilmsToClient,
+  adaptLoginToClient,
   adaptUserToClient,
 } from '../utils/adapters/adaptersToClient';
-import UserDto from '../dto/user/user.dto';
+
 import CreateUserWithIdDto from '../dto/user/create-user-with-id.dto';
 import { adaptAvatarToServer, adaptSignupToServer } from '../utils/adapters/adaptersToServer';
 import StatusCodes from 'http-status-codes';
@@ -117,7 +117,7 @@ export const checkAuth = createAsyncThunk<User, undefined, { extra: Extra }>(
   async (_arg, { extra }) => {
     const { api } = extra;
     try {
-      const { data } = await api.get<UserDto>(APIRoute.Login);
+      const { data } = await api.get<UserWithTokenDto>(APIRoute.Login);
       return adaptUserToClient(data);
     } catch (error) {
       dropToken();
@@ -126,7 +126,7 @@ export const checkAuth = createAsyncThunk<User, undefined, { extra: Extra }>(
   },
 );
 
-export const login = createAsyncThunk<any, AuthData, { extra: Extra }>(
+export const login = createAsyncThunk<LoggedUser, AuthData, { extra: Extra }>(
   `${NameSpace.User}/login`,
   async (authData, { extra }) => {
     const { api } = extra;
@@ -138,7 +138,7 @@ export const login = createAsyncThunk<any, AuthData, { extra: Extra }>(
       saveToken(token);
     }
 
-    return data;
+    return adaptLoginToClient(data);
   },
 );
 
