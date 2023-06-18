@@ -27,6 +27,7 @@ export default class FilmResponse {
 
   @Expose({ name: 'userId' })
   @Type(() => UserResponse)
+  @Transform(({ value: users }) => users[0])
   public user!: UserResponse;
 
   @Expose()

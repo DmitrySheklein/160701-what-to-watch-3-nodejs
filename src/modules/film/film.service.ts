@@ -57,8 +57,7 @@ export default class FilmService implements FilmServiceInterface {
           },
         },
       ])
-      .exec()
-      .then((films) => films.map((film) => ({ ...film, userId: film.userId[0] })));
+      .exec();
   }
 
   public async deleteById(filmID: string): Promise<DocumentType<FilmEntity> | null> {
