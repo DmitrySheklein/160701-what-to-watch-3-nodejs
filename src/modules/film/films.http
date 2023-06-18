@@ -9,7 +9,7 @@
 @userId = 6442c65bfafc34b1e2fa8b49
 @token = eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Imtla3NAb3Zlcmxvb2submV0IiwiaWQiOiI2NDQyYzY1YmZhZmMzNGIxZTJmYThiNDkiLCJpYXQiOjE2ODI0NDM4ODksImV4cCI6MTY4MjYxNjY4OX0.mj0noms9c6JHAMcLXLezxgj_Yilsfy5Uz5yuyxAiVkk
 
-## Получить список фильмов
+### Получить список фильмов
 GET {{host}}/{{parentPath}} HTTP/1.1
 ###
 

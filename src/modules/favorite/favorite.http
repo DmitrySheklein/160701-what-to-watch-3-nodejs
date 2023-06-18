@@ -5,14 +5,14 @@
 @parentPath = favorite
 @contentType = application/json
 @filmId = 6442c2f9c8370b11a4759f59
-@token = eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Imtla3NAb3Zlcmxvb2submV0IiwiaWQiOiI2NDQyYzY1YmZhZmMzNGIxZTJmYThiNDkiLCJpYXQiOjE2ODIwOTc5MTMsImV4cCI6MTY4MjI3MDcxM30.3FAQn9axTYbijGf9wUEZ8UBYiYe2QE5LHLXSNRROx7M
+@token = eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Imtla3NAb3Zlcmxvb2submV0IiwiaWQiOiI2NDQyYzY1YmZhZmMzNGIxZTJmYThiNDkiLCJpYXQiOjE2ODI2MTc3OTQsImV4cCI6MTY4Mjc5MDU5NH0.cSPoUsTnRwkt5EHack9C34opIgYq5CrhX6MZPyCwBvw
 ## Добавить в избранное
 POST {{host}}/{{parentPath}}/{{filmId}}/1 HTTP/1.1
 Authorization: Bearer {{token}}
 ###
 
 ## Убрать из избранного
-POST {{host}}/{{parentPath}}/{{filmId}}/0 HTTP/1.1
+DELETE  {{host}}/{{parentPath}}/{{filmId}}/0 HTTP/1.1
 Content-Type: {{contentType}}
 Authorization: Bearer {{token}}
 ###
